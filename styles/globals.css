@@ -103,9 +103,8 @@ body {
 
 #slider .slider_main .purches {
   position: absolute;
-  top: 50%;
+  top: 10%;
   right: 20px;
-  transform: translateY(-50%);
 }
 
 #slider .slider_main .purches button {

@@ -34,7 +34,7 @@ export default function Vip() {
                                 <Link className="nav-link active" aria-current="page" href="/records">Records</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" href="/profile">Me</Link>
+                                <Link className="nav-link active" aria-current="page" href="/profile">Profile</Link>
                             </li>
                         </ul>
                     </div>
@@ -282,7 +282,7 @@ export default function Vip() {
                                     </div>
                                     <div className="icon_item">
                                         <Link href="/profile"><i className="fa-solid fa-user"></i></Link>
-                                        <p>Me</p>
+                                         <p>Profile</p>
                                     </div>
                                 </div>
                             </div>

@@ -53,7 +53,7 @@ export default function Dashboard() {
                                     <Link className="nav-link active" aria-current="page" href="/records">Records</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" href="/profile">Me</Link>
+                                    <Link className="nav-link active" aria-current="page" href="/profile">Profile</Link>
                                 </li>
                             </ul>
                         </div>
@@ -78,7 +78,7 @@ export default function Dashboard() {
                             </div>
 
                             <div className="purches">
-                                <button><Link href="/purchase">Purches</Link></button>
+                                <button><Link href="/purchase">purchase</Link></button>
                             </div>
 
                         </div>
@@ -123,11 +123,11 @@ export default function Dashboard() {
                 < section id="count" >
                     <div className="container">
                         <div className="count_main">
-                            <h3>Revenue (non-real-time_data)</h3>
+                            <h3>Information</h3>
                             <div className="row g-0">
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item1">
-                                        <p>Available Balnce</p>
+                                        <p>Available Balance</p>
                                         <h3 className="count_up">754.78</h3>
                                     </div>
                                 </div>
@@ -163,20 +163,20 @@ export default function Dashboard() {
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item7">
-                                        <p>Totall Revenue</p>
-                                        <h3 className="count_up">1554.78</h3>
+                                        <p>Remaining Tasks</p>
+                                        <h3 className="count_up">5</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item8">
-                                        <p>Taskd Review</p>
+                                        <p>Tasks under review</p>
                                         <h3 className="count_up">0</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item9">
-                                        <p>Remaining Tasked</p>
-                                        <h3 className="count_up">5</h3>
+                                        <p>Totall Revenue</p>
+                                        <h3 className="count_up">1554.78</h3>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +188,7 @@ export default function Dashboard() {
                 < div className="line" ></div >
 
                 {/* <!--TASK HALL PART START-- > */}
-                < section id="task" >
+                {/* < section id="task" >
                     <div className="container">
                         <div className="task_main">
                             <div className="row">
@@ -247,7 +247,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                </section >
+                </section > */}
                 {/* <!--TASK HALL PART END-- > */}
 
 
@@ -276,7 +276,7 @@ export default function Dashboard() {
                                         </div>
                                         <div className="icon_item">
                                             <Link href="/profile"><i className="fa-solid fa-user"></i></Link>
-                                            <p>Me</p>
+                                             <p>Profile</p>
                                         </div>
                                     </div>
                                 </div>

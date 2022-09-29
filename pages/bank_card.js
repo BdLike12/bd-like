@@ -53,7 +53,7 @@ export default function Bank_card() {
                                     <Link className="nav-link active" aria-current="page" href="/records">Records</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" href="/profile">Me</Link>
+                                    <Link className="nav-link active" aria-current="page" href="/profile">Profile</Link>
                                 </li>
                             </ul>
                         </div>
@@ -129,24 +129,24 @@ export default function Bank_card() {
                                 <div className="col-lg-12">
                                     <div className="icon_div">
                                         <div className="icon_item">
-                                            <Link href="index.html"><i className="fa-solid fa-house"></i></Link>
+                                            <Link href="/dashboard"><i className="fa-solid fa-house"></i></Link>
                                             <p>Home</p>
                                         </div>
                                         <div className="icon_item">
-                                            <Link href="vip.html"><i className="fa-regular fa-gem"></i></Link>
+                                            <Link href="/vip"><i className="fa-regular fa-gem"></i></Link>
                                             <p>VIP</p>
                                         </div>
                                         <div className="icon_item">
-                                            <Link href="#"><i className="fa-solid fa-rectangle-ad"></i></Link>
+                                            <Link href="/ad"><i className="fa-solid fa-rectangle-ad"></i></Link>
                                             <p>Ad</p>
                                         </div>
                                         <div className="icon_item">
-                                            <Link href="records.html"><i className="fa-solid fa-clock"></i></Link>
+                                            <Link href="/records"><i className="fa-solid fa-clock"></i></Link>
                                             <p>Records</p>
                                         </div>
                                         <div className="icon_item">
-                                            <Link href="me.html"><i className="fa-solid fa-user"></i></Link>
-                                            <p>Me</p>
+                                            <Link href="profile"><i className="fa-solid fa-user"></i></Link>
+                                             <p>Profile</p>
                                         </div>
                                     </div>
                                 </div>
