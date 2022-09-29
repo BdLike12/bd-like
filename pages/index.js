@@ -1,4 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0"
+import Link from "next/link";
+
 
 export default function Home() {
   const { user, isLoading } = useUser();
@@ -16,7 +18,7 @@ export default function Home() {
       <div>
         <p>{JSON.stringify(user)}</p>
         <div>
-          <a href="/api/auth/logout">Logout</a>
+          <Link href="/api/auth/logout">Logout</Link>
         </div>
       </div>
     )
@@ -24,7 +26,7 @@ export default function Home() {
 
   else return (
     <div>
-      <a href="/api/auth/login">Login</a>
+      <Link href="/api/auth/login">Login</Link>
     </div>
   )
 }
