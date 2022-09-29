@@ -190,6 +190,7 @@ export default function Profile() {
                                 <div className="service_item text-center">
                                     <Link href="/api/auth/logout"><i className="fa-solid fa-power-off"></i>
                                     </Link>
+                                    <p>Logout</p>
                                 </div>
                             </div>
                         </div>
