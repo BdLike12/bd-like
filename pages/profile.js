@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 
 
 export default function Profile() {
+    const router = useRouter();
 
     const [navopen, setNavopen] = useState(false);
     return (
@@ -186,7 +188,7 @@ export default function Profile() {
                             </div>
                             <div className="col-lg-4 col-6">
                                 <div className="service_item text-center">
-                                    <Link href="#"><i className="fa-solid fa-power-off"></i>
+                                    <Link href="/api/auth/logout"><i className="fa-solid fa-power-off"></i>
                                     </Link>
                                 </div>
                             </div>

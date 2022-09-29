@@ -1,32 +1,22 @@
-import { useUser } from "@auth0/nextjs-auth0"
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 
 
 export default function Home() {
-  const { user, isLoading } = useUser();
 
-  if (isLoading) {
-    return (
-      <div>
-        <p>loading . . .</p>
-      </div>
-    )
-  }
+  const router = useRouter();
+  useEffect(() => {
+    router.push('/dashboard')
+  }, []);
 
-  else if (user) {
-    return (
-      <div>
-        <p>{JSON.stringify(user)}</p>
-        <div>
-          <Link href="/api/auth/logout">Logout</Link>
-        </div>
-      </div>
-    )
-  }
 
-  else return (
+
+
+
+  return (
     <div>
-      <Link href="/api/auth/login">Login</Link>
+      Loading . . .
     </div>
   )
 }
