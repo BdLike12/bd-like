@@ -16,8 +16,10 @@ export default function Dashboard() {
     }
     else if (!user) {
         return (
-            <div>
-                <Link href="/api/auth/login">Login</Link>
+            <div style={{ height: "98vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Link href="/api/auth/login">
+                    <a style={{ backgroundColor: "#dbdbdb", padding: "10px", borderRadius: "10px" }}> Login</a>
+                </Link>
             </div>
         )
     }

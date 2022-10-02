@@ -17,8 +17,10 @@ export default function Bank_card() {
     }
     else if (!user) {
         return (
-            <div>
-                <Link href="/api/auth/login">Login</Link>
+            <div style={{ height: "98vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Link href="/api/auth/login">
+                    <a style={{ backgroundColor: "#dbdbdb", padding: "10px", borderRadius: "10px" }}> Login</a>
+                </Link>
             </div>
         )
     }
@@ -86,43 +88,37 @@ export default function Bank_card() {
                 <section id="bank_name">
                     <div className="container">
                         <div className="bank_name_main">
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <div className="bank_name_item">
-                                        <p>Bank name</p>
-                                        <input type="text" placeholder="Enter Bank Name" />
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="bank_name_item">
-                                        <p>Account Number</p>
-                                        <input type="text" placeholder="Enter Your Account No" />
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="bank_name_item">
-                                        <p>Card Holder</p>
-                                        <input type="text" placeholder="Card Holder" />
-                                    </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="bank_name_item">
-                                        <p>Bkash/Nogod</p>
-                                        <input type="text" placeholder="Bkash No/Nogod No" />
-                                    </div>
-                                </div>
+                            <div className="bank_name_item">
+                                <p>Bank name</p>
+                                <input type="text" placeholder="Enter Bank Name" />
                             </div>
 
+                            <div className="bank_name_item">
+                                <p>Account Number</p>
+                                <input type="text" placeholder="Enter Your Account No" />
+                            </div>
+
+                            <div className="bank_name_item">
+                                <p>Card</p>
+                                <input type="text" placeholder="Card" />
+                            </div>
+
+                            <div className="bank_name_item">
+                                <p>Bkash</p>
+                                <input type="text" placeholder="Bkash No" />
+                            </div>
                             <div className="bank_btn text-center">
-                                <button>Send</button>
+                                <button>save</button>
                             </div>
                         </div>
                     </div>
-                </section>
+                </section >
                 {/* <!-- BANK NAME PART END --> */}
 
+    
+
                 {/* <!-- Mobile Bottom ICON BAR PART START --> */}
-                <section id="icon" className="d-sm-none">
+                <section id="icon" className="d-sm-none" style={{backgroundColor: "#ebebeb", position: "absolute", bottom: "0", width: "100%"}}>
                     <div className="container">
                         <div className="icon_main">
                             <div className="row">
@@ -146,7 +142,7 @@ export default function Bank_card() {
                                         </div>
                                         <div className="icon_item">
                                             <Link href="profile"><i className="fa-solid fa-user"></i></Link>
-                                             <p>Profile</p>
+                                            <p>Profile</p>
                                         </div>
                                     </div>
                                 </div>

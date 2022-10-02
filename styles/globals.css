@@ -709,6 +709,17 @@ body {
   background: transparent;
 }
 
+.edit button {
+  padding: 10px 30px;
+  border: 1px solid white;
+  border-radius: 50px;
+  color: black;
+  transition: all linear 0.3s;
+  margin-right: 10px;
+  text-transform: uppercase;
+}
+
+
 .balance_main .balance_inf .balance_btn button:hover {
   background: linear-gradient(#FA2FB5, #B93160);
   color: #fff;
