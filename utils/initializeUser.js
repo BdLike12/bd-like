@@ -1,4 +1,4 @@
-import { getUser, upsertUser } from "../database/functions";
+import { createPaymentMethodsOfUser, getUser, upsertUser } from "../database/functions";
 
 async function initializeUser(user) {
     console.log(user);
@@ -12,6 +12,7 @@ async function initializeUser(user) {
     if (!data || (data.length === 0))
     {
         await upsertUser(userID, email, balance);
+        await createPaymentMethodsOfUser(userID, "", "", "", "");
     }
 }
 

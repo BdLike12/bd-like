@@ -32,8 +32,59 @@ async function upsertUser(userID, email, balance) {
     }
 }
 
+async function getPaymentMethods(userID) {
+    const {
+        data, error
+    } = await supabase
+        .from('payment_methods')
+        .select('*')
+        .eq('userID', userID);
+
+    return {
+        data,
+        error
+    };
+}
+
+async function createPaymentMethodsOfUser(userID, fullName, bankAccount, cardNumber, bkashNumber) {
+
+    const {
+        data,
+        error
+    } = await supabase
+        .from('payment_methods')
+        .insert([{ userID, fullName, bankAccount, cardNumber, bkashNumber }])
+
+    return {
+        data,
+        error
+    }
+}
+
+
+async function updatePaymentMethodsOfUser(userID, fullName, bankAccount, cardNumber, bkashNumber) {
+
+    const {
+        data,
+        error
+    } = await supabase
+        .from('users')
+        .update([{ fullName, bankAccount, cardNumber, bkashNumber }])
+        .eq("userID", userID)
+
+    return {
+        data,
+        error
+    }
+}
+
 
 export {
     getUser,
-    upsertUser
+    upsertUser,
+
+    
+    createPaymentMethodsOfUser,
+    getPaymentMethods,
+    updatePaymentMethodsOfUser,
 }
