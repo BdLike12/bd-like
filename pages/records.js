@@ -65,13 +65,13 @@ export default function Records() {
                             <div className="col-3">
                                 <div className="heading_item">
                                     <div href="#proof"
-                                        onClick={() => { setState(PAGE_STATES.PROOF) }}>submit proof</div>
+                                        onClick={() => { setState(PAGE_STATES.PROOF) }}>Submit Proof</div>
                                 </div>
                             </div>
                             <div className="col-3">
                                 <div className="heading_item">
                                     <div href="#pending-tasks"
-                                        onClick={() => { setState(PAGE_STATES.PENDING) }}>Pendding</div>
+                                        onClick={() => { setState(PAGE_STATES.PENDING) }}>Pending</div>
                                 </div>
                             </div>
                             <div className="col-3">

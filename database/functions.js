@@ -33,13 +33,15 @@ async function upsertUser(userID, email, balance) {
 }
 
 async function getPaymentMethods(userID) {
-    const {
+    let {
         data, error
     } = await supabase
         .from('payment_methods')
         .select('*')
         .eq('userID', userID);
 
+    if (data && data.length !== 0) data = data[0];
+    else data = null;
     return {
         data,
         error
@@ -68,8 +70,8 @@ async function updatePaymentMethodsOfUser(userID, fullName, bankAccount, cardNum
         data,
         error
     } = await supabase
-        .from('users')
-        .update([{ fullName, bankAccount, cardNumber, bkashNumber, bankName}])
+        .from('payment_methods')
+        .update([{ fullName, bankAccount, cardNumber, bkashNumber, bankName }])
         .eq("userID", userID)
 
     return {
@@ -83,7 +85,7 @@ export {
     getUser,
     upsertUser,
 
-    
+
     createPaymentMethodsOfUser,
     getPaymentMethods,
     updatePaymentMethodsOfUser,

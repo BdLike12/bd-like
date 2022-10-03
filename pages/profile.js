@@ -83,146 +83,38 @@ export default function Profile() {
                                         <div className="number">
                                             <h5>{user?.nickname}</h5>
                                             <div className="edit" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                                                <h5>019539755000</h5>
-                                                <button className="balance_btn">edit</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-2">
                                     <div className="icon">
-                                        <Link href="/dashboard"><i className="fa-solid fa-angle-right"></i></Link>
+                                        <Link href="/dashboard"><i className="fa-solid fa-angle-left"></i></Link>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </header>
-                {/* <!-- ME HEADER PART END --> */}
 
-                {/* <!-- VIP MEMBER PART START --> */}
-                <section id="vip_member">
-                    <div className="container">
-                        <div className="vip_member_main">
-                            <div className="col-lg-12">
-                                <div className="vip_heading">
-                                    <div className="vip_item">
-                                        <div className="vip_item_inf">
-                                            <div className="name">
-                                                <h4>VIP:</h4>
-                                            </div>
-                                            <div className="catagori">
-                                                <h4>Member</h4>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
 
-                                    <div className="rating">
-                                        <div className="rating_inf">
-                                            <span>Ranking:</span>
-                                        </div>
-                                        <div className="rating_icon">
-                                            <picture>
-                                                <img src="/badge.png" alt="img" />
-                                            </picture>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                    <div className="service_item text-center" style={{ width: "max-content", backgroundColor: "#dbdbdb", margin: "10px", marginLeft: "10px", padding: "10px", borderRadius: "10px" }}>
+                        <Link href="/bank_card"><i className="fa-solid fa-building"></i></Link>
+                        <p>Payment</p>
                     </div>
-                </section>
-                {/* <!-- VIP MEMBER PART END --> */}
-
-                {/* <!-- BALANCE PART START --> */}
-                <section id="balance">
-                    <div className="container">
-                        <div className="balance_main">
-                            <div className="row">
-                                <div className="col-lg-10">
-                                    <div className="balance_inf">
-                                        <p>Current Blance</p>
-                                        <h4>104 tk</h4>
-                                        <p>Total Revenue</p>
-                                        <h4>36 tk</h4>
-                                        <div className="balance_btn">
-                                            <button>invite friends</button>
-                                            <button>my team</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="service_item text-center" style={{ width: "max-content", backgroundColor: "#dbdbdb", margin: "10px", marginLeft: "10px", padding: "10px", borderRadius: "10px" }}>
+                        <Link href="/api/auth/logout?federated"><i className="fa-solid fa-power-off"></i>
+                        </Link>
+                        <p>Logout</p>
                     </div>
-                </section>
-                {/* <!-- BALANCE PART END --> */}
+                </div>
 
-                {/* <!-- SERVICE PART START --> */}
-                <section id="service">
-                    <div className="container">
-                        <div className="service_main">
-                            <div className="row">
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="#"><i className="fa-solid fa-address-card"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="bank_card.html"><i className="fa-solid fa-building-columns"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="my_wallet.html"><i className="fa-solid fa-money-bill-transfer"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="bank_card.html"><i className="fa-solid fa-book"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="#"><i className="fa-solid fa-circle-down"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="#"><i className="fa-solid fa-question"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="facebook.html"><i className="fa-solid fa-compass"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="#"><i className="fa-solid fa-headphones"></i>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="col-lg-4 col-6">
-                                    <div className="service_item text-center">
-                                        <Link href="/api/auth/logout?federated"><i className="fa-solid fa-power-off"></i>
-                                        </Link>
-                                        <p>Logout</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                {/* <!-- SERVICE PART END --> */}
+
+                {/* <div className="icon_item" style={{ backgroundColor: "#dbdbdb", paddingTop: "50px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+
+                </div> */}
+
 
                 {/* <!-- Mobile Bottom ICON BAR PART START --> */}
                 <section id="icon" className="d-sm-none">

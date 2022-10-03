@@ -9,7 +9,6 @@ export default function Dashboard() {
     const { user, isLoading } = useUser();
 
     useEffect(() => {
-        console.log(user)
         initializeUser(user);
     }, [user])
 
@@ -93,11 +92,6 @@ export default function Dashboard() {
                     </div>
                 </section>
                 {/* <!-- SLIDER PART END --> */}
-
-                <div className="icon_item" style={{backgroundColor: "#dbdbdb", paddingTop: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
-                    <Link href="/bank_card"><i className="fa-solid fa-building"></i></Link>
-                    <p>Payment</p>
-                </div>
 
                 < div className="line" ></div >
 

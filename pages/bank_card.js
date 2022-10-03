@@ -1,6 +1,8 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPaymentMethods, updatePaymentMethodsOfUser } from "../database/functions";
+import { initializeUser } from "../utils/initializeUser";
 
 
 export default function Bank_card() {
@@ -8,7 +10,42 @@ export default function Bank_card() {
     const [navopen, setNavopen] = useState(false);
     const { user, isLoading } = useUser();
 
-    if (isLoading) {
+    const [load, setLoad] = useState(false);
+
+    const [fullName, setFullName] = useState("");
+    const [bankName, setBankName] = useState("");
+    const [accountNumber, setAccountNumber] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [bkashNumber, setBkashNumber] = useState("");
+
+
+
+    async function updatePaymentMethod() {
+        setLoad(true);
+        await updatePaymentMethodsOfUser(user.sub, fullName, accountNumber, cardNumber, bkashNumber, bankName);
+        setLoad(false);
+    }
+    async function fetchMethods() {
+        if (!user) return;
+        let { data: method, error } = await getPaymentMethods(user.sub);
+        if (method) {
+            if (method.fullName) setFullName(method.fullName);
+            if (method.bankName) setBankName(method.bankName);
+            if (method.bankAccount) setAccountNumber(method.bankAccount);
+            if (method.cardNumber) setCardNumber(method.cardNumber);
+            if (method.bkashNumber) setBkashNumber(method.bkashNumber);
+        }
+    }
+
+    useEffect(() => {
+        fetchMethods();
+        initializeUser(user);
+    }, [user])
+
+
+
+
+    if (isLoading || load) {
         return (
             <div>
                 <p>loading . . .</p>
@@ -74,7 +111,7 @@ export default function Bank_card() {
                                             <Link href="/dashboard"><i className="fa-solid fa-angle-left"></i></Link>
                                         </div>
                                         <div className="tittle m-auto">
-                                            <h5>Bank card information</h5>
+                                            <h5>Payment Method's information</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -87,38 +124,74 @@ export default function Bank_card() {
                 {/* <!-- BANK NAME PART START --> */}
                 <section id="bank_name">
                     <div className="container">
+
                         <div className="bank_name_main">
+                            <div className="bank_name_item" style={{ maxWidth: "max-content" }}>
+                                <p>available balance</p>
+                                <input type="text" placeholder="balance" />
+                            </div>
+                            <div className="bank_name_item" style={{ maxWidth: "max-content" }}>
+                                <p>withdrawal ammount</p>
+                                <input type="text" placeholder="withdraw" />
+                            </div>
+                        </div>
+
+                        <div className="bank_name_main" style={{ display: "block" }}>
+                            <div className="bank_btn text-center">
+                                <button>request withdrawal</button>
+                            </div>
+                        </div>
+
+                        <div className="bank_name_main">
+                            <div className="bank_name_item" style={{ maxWidth: "max-content" }}>
+                                <p>Full name</p>
+                                <input type="text" placeholder="Enter your full Name" value={fullName}
+                                    onChange={(e) => { setFullName(e.target.value) }}
+                                />
+                            </div>
+
                             <div className="bank_name_item">
                                 <p>Bank name</p>
-                                <input type="text" placeholder="Enter Bank Name" />
+                                <input type="text" placeholder="Enter Bank Name" value={bankName}
+                                    onChange={(e) => { setBankName(e.target.value) }}
+                                />
                             </div>
 
                             <div className="bank_name_item">
                                 <p>Account Number</p>
-                                <input type="text" placeholder="Enter Your Account No" />
+                                <input type="text" placeholder="Enter Your Account No" value={accountNumber}
+                                    onChange={(e) => { setAccountNumber(e.target.value) }}
+                                />
                             </div>
 
                             <div className="bank_name_item">
                                 <p>Card</p>
-                                <input type="text" placeholder="Card" />
+                                <input type="text" placeholder="Enter you card No" value={cardNumber}
+                                    onChange={(e) => { setCardNumber(e.target.value) }}
+                                />
                             </div>
 
                             <div className="bank_name_item">
-                                <p>Bkash</p>
-                                <input type="text" placeholder="Bkash No" />
+                                <p>Bkash Number</p>
+                                <input type="text" placeholder="Enter your Bkash No" value={bkashNumber}
+                                    onChange={(e) => { setBkashNumber(e.target.value) }}
+                                />
                             </div>
-                            <div className="bank_btn text-center">
-                                <button>save</button>
-                            </div>
+                        </div>
+
+                    </div>
+                    <div className="bank_name_main" style={{ display: "block" }}>
+                        <div className="bank_btn text-center">
+                            <button onClick={async () => { await updatePaymentMethod() }}>save</button>
                         </div>
                     </div>
                 </section >
                 {/* <!-- BANK NAME PART END --> */}
 
-    
+
 
                 {/* <!-- Mobile Bottom ICON BAR PART START --> */}
-                <section id="icon" className="d-sm-none" style={{backgroundColor: "#ebebeb", position: "absolute", bottom: "0", width: "100%"}}>
+                <section id="icon" className="d-sm-none" style={{ backgroundColor: "#ebebeb" }}>
                     <div className="container">
                         <div className="icon_main">
                             <div className="row">

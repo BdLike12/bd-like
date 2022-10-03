@@ -6,6 +6,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  background-color: #dbdbdb;
 }
 
 * {
@@ -24,7 +25,7 @@ a {
 
 /* navbar part start */
 .navbar {
-  background: rgba(170, 196, 255, 0.431372549);
+  background: #dbdbdb;
 }
 
 .navbar .img {
@@ -260,7 +261,10 @@ body {
 .vip_main .heading {
   display: flex;
   align-items: center;
-  background: #D2DAFF;
+  background: #002B5B;
+  color: #eeeeee;
+  border-radius: 20px;
+  padding: 10px;
 }
 
 .vip_main .heading .icon {
@@ -343,8 +347,10 @@ body {
 }
 
 .invite_main {
-  background: #A5F1E9;
+  background: #003865;
   padding: 60px 0;
+  color: #eeeeee;
+  border-radius: 20px;
 }
 
 .invite_main h3 {
@@ -368,13 +374,14 @@ body {
   height: 100px;
   width: 100px;
   margin-bottom: 10px;
-  color: #777;
   transition: all linear 0.3s;
+
+  background: #16213E;
+  color: #fff;
 }
 
 .invite_main .icon_main .invite_icon:hover {
-  background: #16213E;
-  color: #fff;
+  color: #777;
 }
 
 /* INVITATION PART END */
@@ -511,7 +518,8 @@ body {
 /* HEADING PART START */
 #heading {
   padding: 20px 0;
-  background: #ADDDD0;
+  background: #002B5B;
+  color: #eeeeee;
 }
 
 .heading_main .heading_item {
@@ -755,7 +763,8 @@ body {
 /* WALLET HEADING PART START */
 #wallet_heading {
   padding: 20PX 0;
-  background: #5CB8E4;
+  background: #002B5B;
+  color: #eeeeee;
 }
 
 .wallet_heading_main .wallet_inf {
@@ -826,6 +835,11 @@ body {
   padding: 60PX 0;
 }
 
+.bank_name_main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 .bank_name_main .bank_name_item {
   padding: 30px 0;
 }
@@ -839,6 +853,8 @@ body {
   padding: 10px 0;
   border: none;
   border-bottom: 1px solid #000;
+  background-color: #dbdbdb;
+
 }
 
 .bank_name_main .bank_btn {
@@ -1020,6 +1036,10 @@ body {
     padding: 10px 0;
   }
 
+  .bank_name_main {
+    grid-template-columns: 1fr;
+  }
+
   .bank_name_main .bank_name_item p {
     margin-bottom: 0;
   }
@@ -1163,6 +1183,10 @@ body {
     font-size: 35px;
   }
 
+  .bank_name_main {
+    grid-template-columns: 1fr;
+  }
+
   /* RECORD PART END */
 
 }
@@ -1176,6 +1200,10 @@ body {
 
   #slider .slider_main .purches button a {
     font-size: 12px;
+  }
+
+  .bank_name_main {
+    grid-template-columns: 1fr;
   }
 
   /* SLIDER PART END */
@@ -1294,7 +1322,6 @@ body {
 }
 
 
-.fa-solid
-{
+.fa-solid {
   font-size: xx-large;
 }
