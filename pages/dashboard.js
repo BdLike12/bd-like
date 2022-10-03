@@ -8,7 +8,7 @@ export default function Dashboard() {
     const [navopen, setNavopen] = useState(false);
     const { user, isLoading } = useUser();
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(user)
         initializeUser(user);
     }, [user])
@@ -46,7 +46,7 @@ export default function Dashboard() {
                         <button onClick={() => { setNavopen((current) => !current) }} className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
-                        <div className={navopen ? "collapse navbar-collapse show" : "collapse navbar-collapse"} style={{paddingTop: "30px"}} id="navbarSupportedContent">
+                        <div className={navopen ? "collapse navbar-collapse show" : "collapse navbar-collapse"} style={{ paddingTop: "30px" }} id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
@@ -94,40 +94,12 @@ export default function Dashboard() {
                 </section>
                 {/* <!-- SLIDER PART END --> */}
 
-                {/* <!-- ICON BAR PART START --> */}
-                {/* <section id="icon">
-                    <div className="container">
-                        <div className="icon_main">
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="icon_div">
-                                        <div className="icon_item">
-                                            <Link href="/deposite"><i className="fa-solid fa-sack-dollar"></i></Link>
-                                            <p>Deposit</p>
-                                        </div>
-                                        <div className="icon_item">
-                                            <Link href="/vip"><i className="fa-regular fa-gem"></i></Link>
-                                            <p>VIP</p>
-                                        </div>
-                                        <div className="icon_item">
-                                            <Link href="/bank_card"><i className="fa-solid fa-building"></i></Link>
-                                            <p>Invesment</p>
-                                        </div>
-                                        <div className="icon_item">
-                                            <Link href="/profile"><i className="fa-solid fa-envelope"></i></Link>
-                                            <p>Custom service</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section > */}
-                {/* < !--ICON BAR PART END-- > */}
+                <div className="icon_item" style={{backgroundColor: "#dbdbdb", paddingTop: "10px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
+                    <Link href="/bank_card"><i className="fa-solid fa-building"></i></Link>
+                    <p>Payment</p>
+                </div>
 
                 < div className="line" ></div >
-
-
 
                 < div className="line" ></div >
 
@@ -220,7 +192,7 @@ export default function Dashboard() {
                                         </div>
                                         <div className="icon_item">
                                             <Link href="/profile"><i className="fa-solid fa-user"></i></Link>
-                                             <p>Profile</p>
+                                            <p>Profile</p>
                                         </div>
                                     </div>
                                 </div>

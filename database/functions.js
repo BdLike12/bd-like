@@ -46,14 +46,14 @@ async function getPaymentMethods(userID) {
     };
 }
 
-async function createPaymentMethodsOfUser(userID, fullName, bankAccount, cardNumber, bkashNumber) {
+async function createPaymentMethodsOfUser(userID, fullName, bankAccount, cardNumber, bkashNumber, bankName) {
 
     const {
         data,
         error
     } = await supabase
         .from('payment_methods')
-        .insert([{ userID, fullName, bankAccount, cardNumber, bkashNumber }])
+        .insert([{ userID, fullName, bankAccount, cardNumber, bkashNumber, bankName }])
 
     return {
         data,
@@ -62,14 +62,14 @@ async function createPaymentMethodsOfUser(userID, fullName, bankAccount, cardNum
 }
 
 
-async function updatePaymentMethodsOfUser(userID, fullName, bankAccount, cardNumber, bkashNumber) {
+async function updatePaymentMethodsOfUser(userID, fullName, bankAccount, cardNumber, bkashNumber, bankName) {
 
     const {
         data,
         error
     } = await supabase
         .from('users')
-        .update([{ fullName, bankAccount, cardNumber, bkashNumber }])
+        .update([{ fullName, bankAccount, cardNumber, bkashNumber, bankName}])
         .eq("userID", userID)
 
     return {
