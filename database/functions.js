@@ -17,14 +17,14 @@ async function getUser(userID) {
     };
 }
 
-async function upsertUser(userID, email, balance) {
+async function upsertUser(userID, email, balance, pendingWithdrawalBalance) {
 
     const {
         data,
         error
     } = await supabase
         .from('users')
-        .upsert([{ userID, email, balance }])
+        .upsert([{ userID, email, balance, pendingWithdrawalBalance }])
 
     return {
         data,

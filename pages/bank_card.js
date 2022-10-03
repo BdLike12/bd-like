@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getPaymentMethods, updatePaymentMethodsOfUser } from "../database/functions";
+import { getPaymentMethods, getUser, updatePaymentMethodsOfUser, upsertUser } from "../database/functions";
 import { initializeUser } from "../utils/initializeUser";
 
 
@@ -12,11 +12,16 @@ export default function Bank_card() {
 
     const [load, setLoad] = useState(false);
 
+    const [availableBalance, setAvailableBalance] = useState(0.0);
+    const [pendingWithdrawalBalance, setPendingWithdrawalBalance] = useState(0.0);
+    const [withdrawalAmmount, setWithdrawalAmmount] = useState(0);
+
     const [fullName, setFullName] = useState("");
     const [bankName, setBankName] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
     const [cardNumber, setCardNumber] = useState("");
     const [bkashNumber, setBkashNumber] = useState("");
+    const [fetchedUser, setFetchedUser] = useState(null);
 
 
 
@@ -24,6 +29,28 @@ export default function Bank_card() {
         setLoad(true);
         await updatePaymentMethodsOfUser(user.sub, fullName, accountNumber, cardNumber, bkashNumber, bankName);
         setLoad(false);
+    }
+
+    async function withdrawRequest() {
+        setLoad(true);
+        let newPendingWithdrawalBalance = fetchedUser.pendingWithdrawalBalance + parseInt(withdrawalAmmount);
+        let newBalance = fetchedUser.balance - parseInt(withdrawalAmmount);
+        if(newBalance > 0)
+        {
+            await upsertUser(fetchedUser.userID, fetchedUser.email, newBalance, newPendingWithdrawalBalance);
+        }
+        setWithdrawalAmmount(0);
+        setLoad(false);
+    }
+    async function fetchUser() {
+        if (!user) return;
+        const { data: fetchedUserDataArray, error } = await getUser(user.sub);
+        let fetchedUserData = fetchedUserDataArray[0];
+        if (fetchedUserData) {
+            setFetchedUser(fetchedUserData);
+            setAvailableBalance(fetchedUserData.balance);
+            setPendingWithdrawalBalance(fetchedUserData.pendingWithdrawalBalance);
+        }
     }
     async function fetchMethods() {
         if (!user) return;
@@ -38,9 +65,10 @@ export default function Bank_card() {
     }
 
     useEffect(() => {
+        fetchUser();
         fetchMethods();
         initializeUser(user);
-    }, [user])
+    }, [user, load])
 
 
 
@@ -128,17 +156,23 @@ export default function Bank_card() {
                         <div className="bank_name_main">
                             <div className="bank_name_item" style={{ maxWidth: "max-content" }}>
                                 <p>available balance</p>
-                                <input type="text" placeholder="balance" />
+                                <input type="text" placeholder="balance" readOnly value={availableBalance} />
+                            </div>
+                            <div className="bank_name_item" style={{ maxWidth: "max-content" }}>
+                                <p>Pending withdrawal ammount</p>
+                                <input type="text" placeholder="withdraw" readOnly value={pendingWithdrawalBalance} />
                             </div>
                             <div className="bank_name_item" style={{ maxWidth: "max-content" }}>
                                 <p>withdrawal ammount</p>
-                                <input type="text" placeholder="withdraw" />
+                                <input type="text" placeholder="withdraw" value={withdrawalAmmount}
+                                    onChange={(e) => { setWithdrawalAmmount(e.target.value.replace(/\D/, '')) }}
+                                />
                             </div>
                         </div>
 
                         <div className="bank_name_main" style={{ display: "block" }}>
                             <div className="bank_btn text-center">
-                                <button>request withdrawal</button>
+                                <button onClick={async ()=>{await withdrawRequest()}}>request withdrawal</button>
                             </div>
                         </div>
 
