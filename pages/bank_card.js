@@ -139,7 +139,7 @@ export default function Bank_card() {
                                             <Link href="/dashboard"><i className="fa-solid fa-angle-left"></i></Link>
                                         </div>
                                         <div className="tittle m-auto">
-                                            <h5>Payment Method's information</h5>
+                                            <h5>{"Payment Method's information"}</h5>
                                         </div>
                                     </div>
                                 </div>

@@ -49,13 +49,13 @@ export default function Dashboard() {
                         <div className={navopen ? "collapse navbar-collapse show" : "collapse navbar-collapse"} style={{ paddingTop: "30px" }} id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" href="/admin/payments">payments</Link>
+                                    <Link className="nav-link active" aria-current="page" href="/admin/payments">{"payments"}</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" href="/admin/approval">approval</Link>
+                                    <Link className="nav-link active" aria-current="page" href="/admin/approval">{"approval"}</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" href="/admin/ad">Add ad</Link>
+                                    <Link className="nav-link active" aria-current="page" href="/admin/ad">{"Add ad"}</Link>
                                 </li>
                             </ul>
                         </div>
@@ -78,7 +78,7 @@ export default function Dashboard() {
                             </div>
 
                             <div className="purches">
-                                <button><Link href="#">Admin Dashboard</Link></button>
+                                <button><Link href="#">{"Admin Dashboard"}</Link></button>
                             </div>
                         </div>
                     </div>
@@ -98,20 +98,20 @@ export default function Dashboard() {
                                     <div className="icon_div">
                                         <div className="icon_item active">
                                             <Link href="/admin/dashboard"><i className="fa-solid fa-house"></i></Link>
-                                            <p>Home</p>
+                                            <p>{"Home"}</p>
                                         </div>
 
                                         <div className="icon_item">
                                             <Link href="/admin/approval"><i className="fa-solid fa-user-cog"></i></Link>
-                                            <p>approval</p>
+                                            <p>{"approval"}</p>
                                         </div>
                                         <div className="icon_item">
                                             <Link href="/admin/payments"><i className="fa-solid fa-dollar"></i></Link>
-                                            <p>payments</p>
+                                            <p>{"payments"}</p>
                                         </div>
                                         <div className="icon_item">
                                             <Link href="/admin/ad"><i className="fa-solid fa-rectangle-ad"></i></Link>
-                                            <p>Ad</p>
+                                            <p>{"Ad"}</p>
                                         </div>
                                     </div>
                                 </div>
