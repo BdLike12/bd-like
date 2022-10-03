@@ -1,11 +1,17 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { initializeUser } from "../utils/initializeUser";
 
 export default function Dashboard() {
 
     const [navopen, setNavopen] = useState(false);
     const { user, isLoading } = useUser();
+
+    useEffect(()=>{
+        console.log(user)
+        initializeUser(user);
+    }, [user])
 
     if (isLoading) {
         return (
@@ -40,7 +46,7 @@ export default function Dashboard() {
                         <button onClick={() => { setNavopen((current) => !current) }} className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
-                        <div className={navopen ? "collapse navbar-collapse show" : "collapse navbar-collapse"} id="navbarSupportedContent">
+                        <div className={navopen ? "collapse navbar-collapse show" : "collapse navbar-collapse"} style={{paddingTop: "30px"}} id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
@@ -89,7 +95,7 @@ export default function Dashboard() {
                 {/* <!-- SLIDER PART END --> */}
 
                 {/* <!-- ICON BAR PART START --> */}
-                <section id="icon">
+                {/* <section id="icon">
                     <div className="container">
                         <div className="icon_main">
                             <div className="row">
@@ -116,76 +122,12 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                </section >
+                </section > */}
                 {/* < !--ICON BAR PART END-- > */}
 
                 < div className="line" ></div >
 
-                {/* <!--COUNT DOWN PART START-- > */}
-                < section id="count" >
-                    <div className="container">
-                        <div className="count_main">
-                            <h3>Information</h3>
-                            <div className="row g-0">
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item1">
-                                        <p>Available Balance</p>
-                                        <h3 className="count_up">754.78</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item2">
-                                        <p>{"Yesterday's Income"}</p>
-                                        <h3 className="count_up">96.55</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item3">
-                                        <p>{"Today's Income"}</p>
-                                        <h3 className="count_up">96.66</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item4">
-                                        <p>{"This week's Income"}</p>
-                                        <h3 className="count_up">74.78</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item 5">
-                                        <p>{"This Month's Income"}</p>
-                                        <h3 className="count_up">254.78</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item6">
-                                        <p>{"Last Month's Income"}</p>
-                                        <h3 className="count_up">1554.78</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item7">
-                                        <p>Remaining Tasks</p>
-                                        <h3 className="count_up">5</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item8">
-                                        <p>Tasks under review</p>
-                                        <h3 className="count_up">0</h3>
-                                    </div>
-                                </div>
-                                <div className="col-4 text-center">
-                                    <div className="count_item count_item9">
-                                        <p>Totall Revenue</p>
-                                        <h3 className="count_up">1554.78</h3>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section >
-                {/* <!--COUNT DOWN PART END-- > */}
+
 
                 < div className="line" ></div >
 

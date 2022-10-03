@@ -1,9 +1,21 @@
 import Link from "next/link";
 import { useState } from "react";
 
+
+const PAGE_STATES = {
+    PROOF: "PROOF",
+    PENDING: "PENDING",
+    COMPLETED: "COMPLETED",
+    REJECTED: "REJECTED",
+}
+
+const stateLinkStyle = {
+
+};
 export default function Records() {
 
     const [navopen, setNavopen] = useState(false);
+    const [state, setState] = useState(PAGE_STATES.PROOF);
     return (
         <div>
             {/* <!-- navbar part start --> */}
@@ -45,28 +57,33 @@ export default function Records() {
 
 
             {/* <!-- HEADING PART START --> */}
+
             <section id="heading">
                 <div className="container">
                     <div className="heading_main">
                         <div className="row">
                             <div className="col-3">
                                 <div className="heading_item">
-                                    <Link href="#">Processing</Link>
+                                    <div href="#proof"
+                                        onClick={() => { setState(PAGE_STATES.PROOF) }}>submit proof</div>
                                 </div>
                             </div>
                             <div className="col-3">
                                 <div className="heading_item">
-                                    <Link href="#">Pendding</Link>
+                                    <div href="#pending-tasks"
+                                        onClick={() => { setState(PAGE_STATES.PENDING) }}>Pendding</div>
                                 </div>
                             </div>
                             <div className="col-3">
                                 <div className="heading_item">
-                                    <Link href="#">Completed</Link>
+                                    <div href="#completed-tasks"
+                                        onClick={() => { setState(PAGE_STATES.COMPLETED) }}>Completed</div>
                                 </div>
                             </div>
                             <div className="col-3">
                                 <div className="heading_item">
-                                    <Link href="#">Rejected</Link>
+                                    <div href="#rejected-tasks"
+                                        onClick={() => { setState(PAGE_STATES.REJECTED) }}>Rejected</div>
                                 </div>
                             </div>
                         </div>
@@ -75,38 +92,38 @@ export default function Records() {
             </section>
             {/* <!-- HEADING PART END --> */}
 
-            {/* <!-- RECORD ITEM PART START --> */}
-            <section id="record_item">
-                <div className="container">
-                    <div className="record_item_main">
-                        <div className="row">
-                            <div className="col-lg-6 m-auto">
-                                <div className="record_item_full">
-                                    <div className="screenshot_item">
-                                        <div className="item_main">
-                                            <div className="tittle">
-                                                <h4>Screenshot</h4>
+            {
+                state === PAGE_STATES.PROOF &&
+                <section id="record_item">
+                    <div className="container">
+                        <div className="record_item_main">
+                            <div className="row">
+                                <div className="col-lg-6 m-auto">
+                                    <div className="record_item_full">
+                                        <div className="screenshot_item">
+                                            <div className="item_main">
+                                                <div className="tittle">
+                                                    <h4>Screenshot</h4>
+                                                </div>
+                                                <div className="img_upload">
+                                                    <Link href="#">
+                                                        <i className="fa-regular fa-image"></i>
+                                                    </Link>
+                                                    <p>upload image</p>
+                                                </div>
                                             </div>
-                                            <div className="img_upload">
-                                                <Link href="#">
-                                                    <i className="fa-regular fa-image"></i>
-                                                </Link>
-                                                <p>upload image</p>
+                                            <div className="diposite_bank_btn text-center">
+                                                <button>Upload</button>
                                             </div>
                                         </div>
-
-                                        <div className="diposite_bank_btn text-center">
-                                            <button>Upload</button>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            {/* <!-- RECORD ITEM PART END --> */}
+                </section>
+            }
+
 
 
             {/* <!-- Mobile Bottom ICON BAR PART START --> */}
@@ -134,7 +151,7 @@ export default function Records() {
                                     </div>
                                     <div className="icon_item">
                                         <Link href="/profile"><i className="fa-solid fa-user"></i></Link>
-                                         <p>Profile</p>
+                                        <p>Profile</p>
                                     </div>
                                 </div>
                             </div>
