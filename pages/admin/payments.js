@@ -1,6 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react"
+import { getPaymentMethods, getUsersWithDuePayment } from "../../database/functions";
 import { constants } from "../../utils/constants";
 import { initializeUser } from "../../utils/initializeUser";
 
@@ -8,10 +9,42 @@ export default function Payments() {
 
     const [navopen, setNavopen] = useState(false);
     const { user, isLoading } = useUser();
+    const [usersWithDue, setUsersWithDue] = useState([]);
+    const [selected, setSelected] = useState(null);
+
+    async function fetchUsersWithDuePayment() {
+        if (!usersWithDue || (usersWithDue && usersWithDue.length === 0)) {
+            const { data, error } = await getUsersWithDuePayment();
+            setUsersWithDue(data);
+        }
+    }
+    const [fullName, setFullName] = useState("");
+    const [bankName, setBankName] = useState("");
+    const [accountNumber, setAccountNumber] = useState("");
+    const [cardNumber, setCardNumber] = useState("");
+    const [bkashNumber, setBkashNumber] = useState("");
+
+    async function fetchMethods() {
+        if (!user) return;
+        let { data: method, error } = await getPaymentMethods(selected.userID);
+        if (method) {
+            if (method.fullName) setFullName(method.fullName);
+            if (method.bankName) setBankName(method.bankName);
+            if (method.bankAccount) setAccountNumber(method.bankAccount);
+            if (method.cardNumber) setCardNumber(method.cardNumber);
+            if (method.bkashNumber) setBkashNumber(method.bkashNumber);
+        }
+    }
 
     useEffect(() => {
+        fetchUsersWithDuePayment();
         initializeUser(user);
     }, [user])
+
+    useEffect(() => {
+        if (!selected) return;
+        fetchMethods();
+    }, [selected?.userID])
 
     if (isLoading) {
         return (
@@ -62,6 +95,72 @@ export default function Payments() {
                     </div>
                 </nav>
                 {/* <!-- navbar part end --> */}
+
+
+                {(selected === null) &&
+                    <div style={{ border: "1px solid black", width: "94%", marginLeft: "3%", height: "80vh", padding: "10px", overflowY: "scroll" }}>
+                        <h3 style={{}}> Payment Due</h3>
+
+                        {
+                            usersWithDue.map((user) => {
+                                return <div key={user.userID} style={{ maxWidth: "95%", marginBottom: "10px", borderBottom: "1px solid black" }}>
+                                    <div>
+                                        {user.email}
+                                    </div>
+                                    <div>
+                                        {"Current Balance : " + user.balance}
+                                    </div>
+                                    <div>
+                                        {"Withdraw Request : " + user.pendingWithdrawalBalance}
+                                    </div>
+
+                                    <div className="bank_name_main" style={{ display: "block" }}>
+                                        <div className="bank_btn text-center">
+                                            <button onClick={async () => { setSelected(user) }}>process</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            })
+                        }
+                    </div>
+                }
+
+                {(selected !== null) &&
+                    <div style={{ border: "1px solid black", width: "94%", marginLeft: "3%", height: "80vh", padding: "10px", overflowY: "scroll" }}>
+                        <h3 style={{}}> Payment Processing</h3>
+                        <div style={{ maxWidth: "95%", marginBottom: "10px", borderBottom: "1px solid black" }}>
+                            <div>
+                                {"Email : " + selected.email}
+                            </div>
+                            <div>
+                                {"Current Balance : " + selected.balance}
+                            </div>
+                            <div>
+                                {"Withdraw Request : " + selected.pendingWithdrawalBalance}
+                            </div>
+
+                            <div>
+                                {"FullName : " + fullName}
+                            </div>
+                            <div>
+                                {"bank-name : " + bankName}
+                            </div>
+                            <div>
+                                {"account-number : " + accountNumber}
+                            </div>
+                            <div>
+                                {"card-number : " + cardNumber}
+                            </div>
+                            <div>
+                                {"bkash-number : " + bkashNumber}
+                            </div>
+                            <div>
+                                {"Withdraw Request : " + selected.pendingWithdrawalBalance}
+                            </div>
+                        </div>
+
+                    </div>
+                }
 
 
 

@@ -17,6 +17,23 @@ async function getUser(userID) {
     };
 }
 
+async function getUsersWithDuePayment() {
+    const {
+        data,
+        error
+    } = await supabase
+        .from('users')
+        .select('*')
+        .gt('pendingWithdrawalBalance', 0)
+
+
+
+    return {
+        data,
+        error
+    };
+}
+
 async function upsertUser(userID, email, balance, pendingWithdrawalBalance) {
 
     const {
@@ -84,6 +101,7 @@ async function updatePaymentMethodsOfUser(userID, fullName, bankAccount, cardNum
 export {
     getUser,
     upsertUser,
+    getUsersWithDuePayment,
 
 
     createPaymentMethodsOfUser,
