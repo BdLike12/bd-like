@@ -11,7 +11,7 @@ class MyDocument extends Document {
                         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
                         crossOrigin="anonymous"
                     />
-                    <script defer src="https://kit.fontawesome.com/72f1405682.js" crossorigin="anonymous"></script>
+                    <script defer src="https://kit.fontawesome.com/72f1405682.js" crossOrigin="anonymous"></script>
                 </Head>
                 <body>
                     <Main />
