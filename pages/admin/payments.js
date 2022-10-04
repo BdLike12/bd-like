@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react"
-import { getPaymentMethods, getUsersWithDuePayment } from "../../database/functions";
+import { getPaymentMethods, getUsersWithDuePayment, upsertUser } from "../../database/functions";
 import { constants } from "../../utils/constants";
 import { initializeUser } from "../../utils/initializeUser";
 
@@ -13,16 +13,19 @@ export default function Payments() {
     const [selected, setSelected] = useState(null);
 
     async function fetchUsersWithDuePayment() {
-        if (!usersWithDue || (usersWithDue && usersWithDue.length === 0)) {
-            const { data, error } = await getUsersWithDuePayment();
-            setUsersWithDue(data);
-        }
+        const { data, error } = await getUsersWithDuePayment();
+        setUsersWithDue(data);
     }
     const [fullName, setFullName] = useState("");
     const [bankName, setBankName] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
     const [cardNumber, setCardNumber] = useState("");
     const [bkashNumber, setBkashNumber] = useState("");
+
+    const [load, setLoad] = useState(false);
+
+
+    const [withdrawalAmmount, setWithdrawalAmmount] = useState(0);
 
     async function fetchMethods() {
         if (!user) return;
@@ -46,7 +49,20 @@ export default function Payments() {
         fetchMethods();
     }, [selected?.userID])
 
-    if (isLoading) {
+
+    async function processRequest() {
+        let floatWithdrawalAmmount = parseFloat(withdrawalAmmount);
+        if (selected.pendingWithdrawalBalance < floatWithdrawalAmmount) return;
+
+        setLoad(true);
+        let newPendingWithdrawalBalance = selected.pendingWithdrawalBalance - floatWithdrawalAmmount;
+        await upsertUser(selected.userID, selected.email, selected.balance, newPendingWithdrawalBalance);
+        await fetchUsersWithDuePayment();
+        setSelected(null);
+        setLoad(false);
+    }
+
+    if (isLoading || load) {
         return (
             <div>
                 <p>loading . . .</p>
@@ -154,11 +170,22 @@ export default function Payments() {
                             <div>
                                 {"bkash-number : " + bkashNumber}
                             </div>
-                            <div>
-                                {"Withdraw Request : " + selected.pendingWithdrawalBalance}
-                            </div>
                         </div>
+                        <div>
 
+                            <button style={{ padding: "5px", margin: "10px", backgroundColor: "#dbdbdb", borderRadius: "20px" }} onClick={async () => { setSelected(null) }}>back</button>
+                            <input type="text" placeholder="withdraw" value={withdrawalAmmount} style={{
+                                backgroundColor: "transparent",
+                                borderLeft: "none",
+                                borderTop: "none",
+                                borderRight: "none",
+                                borderBottom: "1px solid black"
+                            }}
+                                onChange={(e) => { setWithdrawalAmmount(e.target.value.replace(/\D/, '')) }}
+                            />
+                            <button style={{ padding: "5px", margin: "10px", backgroundColor: "#dbdbdb", borderRadius: "20px" }} onClick={async () => { await processRequest() }}>mark as paid</button>
+
+                        </div>
                     </div>
                 }
 

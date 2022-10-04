@@ -1,7 +1,10 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUser, getUsersThatWereRefferdByUser, upsertUser } from "../database/functions";
+import { constants } from "../utils/constants";
+import { initializeUser } from "../utils/initializeUser";
 
 
 
@@ -10,9 +13,59 @@ export default function Profile() {
     const router = useRouter();
 
     const [navopen, setNavopen] = useState(false);
+    const [reference, setReference] = useState("");
+    const [fetchedUser, setFetchedUser] = useState(null);
+    const [load, setLoad] = useState(false);
+    const [referred, setReferred] = useState(0);
+
+
+
     const { user, isLoading } = useUser();
 
-    if (isLoading) {
+
+
+    async function fetchUser() {
+        if (!user) return;
+        const { data: fetchedUserDataArray, error } = await getUser(user.sub);
+        let fetchedUserData = fetchedUserDataArray[0];
+        if (fetchedUserData) {
+            setFetchedUser(fetchedUserData);
+            if (fetchedUserData?.referredBy) setReference(fetchedUserData?.referredBy);
+            else setReference("");
+        }
+        const { data: fetchedReferred } = await getUsersThatWereRefferdByUser(user.sub);
+        setReferred(fetchedReferred?.length);
+
+    }
+
+    // add payment to referrer (not implemented)
+    async function addReferal() {
+        console.log(reference);
+        setLoad(true);
+        if (user?.sub === reference) return;
+
+        // update the new user's referredBy
+        await upsertUser(fetchedUser.userID, fetchedUser.email, fetchedUser.balance, fetchedUser.pendingWithdrawalBalance, reference);
+        console.log(reference);
+        const { data: fetchedUserDataArray, error } = await getUser(reference);
+        console.log(fetchedUserDataArray);
+        let referrer = null;
+        if (fetchedUserDataArray.length !== 0) referrer = fetchedUserDataArray[0];
+        // add money to referrer
+        await upsertUser(referrer.userID, referrer.email, (referrer.balance + constants.REFERRAL_PAYOUT), referrer.pendingWithdrawalBalance, referrer.referredBy);
+        await fetchUser();
+        setLoad(true);
+    }
+
+    useEffect(() => {
+        fetchUser();
+        initializeUser(user);
+    }, [user])
+
+
+
+
+    if (isLoading && load) {
         return (
             <div>
                 <p>loading . . .</p>
@@ -49,9 +102,7 @@ export default function Profile() {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" href="/vip">Vip</Link>
-                                </li>
+                              
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/ad">Ad</Link>
                                 </li>
@@ -68,6 +119,7 @@ export default function Profile() {
 
 
 
+
                 {/* <!-- ME HEADER PART START --> */}
                 <header id="me_head">
                     <div className="container">
@@ -81,7 +133,7 @@ export default function Profile() {
                                             </picture>
                                         </div>
                                         <div className="number">
-                                            <h5>{user?.nickname}</h5>
+                                            <h5>{fetchedUser?.email}</h5>
                                             <div className="edit" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                                             </div>
                                         </div>
@@ -97,8 +149,42 @@ export default function Profile() {
                     </div>
                 </header>
 
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div style={{ padding: "30px" }}>
+                    <h5>{"You will reieve " + constants.REFERRAL_PAYOUT + "$ per referal!"}</h5>
+                    <h2>Inviation Code</h2>
+                    <h5>{user?.sub}</h5>
+                    <h5>{"You referred " + referred + " people"}</h5>
+                </div>
 
+                {
+                    < div style={{ padding: "30px" }}>
+
+
+                        <h2>{"Referred By"}</h2>
+                        <input type="text" placeholder="reference" value={reference} style={{
+                            backgroundColor: "transparent",
+                            borderLeft: "none",
+                            borderTop: "none",
+                            borderRight: "none",
+                            borderBottom: "1px solid black"
+                        }}
+                            onChange={(e) => {
+                                (fetchedUser?.referredBy === null) &&
+                                    setReference(e.target.value)
+                            }}
+                        />
+
+                        <button
+                            disabled={fetchedUser?.referredBy !== null}
+                            onClick={async () => { await addReferal() }}
+                            style={{ backgroundColor: "#dbdbdb", borderRadius: "25%", padding: "10px", margin: "10px" }}>
+                            Add
+                        </button>
+                    </div>
+                }
+
+
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     <div className="service_item text-center" style={{ width: "max-content", backgroundColor: "#dbdbdb", margin: "10px", marginLeft: "10px", padding: "10px", borderRadius: "10px" }}>
                         <Link href="/bank_card"><i className="fa-solid fa-building"></i></Link>
                         <p>Payment</p>
@@ -109,6 +195,8 @@ export default function Profile() {
                         <p>Logout</p>
                     </div>
                 </div>
+
+
 
 
                 {/* <div className="icon_item" style={{ backgroundColor: "#dbdbdb", paddingTop: "50px", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>

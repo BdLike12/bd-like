@@ -50,7 +50,7 @@ export default function Dashboard() {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
                                 </li>
-                          
+
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/ad">Ad</Link>
                                 </li>
@@ -66,97 +66,41 @@ export default function Dashboard() {
                 </nav>
                 {/* <!-- navbar part end --> */}
 
-                {/* <!-- SLIDER PART START --> */}
-                <section id="slider">
-                    <div className="container px-0">
-                        <div className="slider_main">
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <div className="main_div">
-                                        <div className="slider_item">
-                                            <picture>
-                                                <img className="img-fluid" src="/bdlike_bg.jpg" alt="img" />
-                                            </picture>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className="purches">
-                                <button><Link href="/purchase">purchase</Link></button>
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-                {/* <!-- SLIDER PART END --> */}
 
                 < div className="line" ></div >
 
                 < div className="line" ></div >
 
                 {/* <!--TASK HALL PART START-- > */}
-                {/* < section id="task" >
+                <section id="record_item">
                     <div className="container">
-                        <div className="task_main">
+                        <div className="record_item_main">
                             <div className="row">
-                                <div className="col-lg-3 col-md-3 col-6">
-                                    <div className="task_item">
-                                        <h5>Ali Baba</h5>
-                                        <p>Like/Follow</p>
-                                        <div className="icon">
-                                            <Link href="https://www.alibaba.com/?src=sem_ggl&from=sem_ggl&cmpgn=17514778232&adgrp=&fditm=&tgt=&locintrst=&locphyscl=1001441&mtchtyp=&ntwrk=x&device=c&dvcmdl=&creative=&plcmnt=&plcmntcat=&p1=&p2=&aceid=&position=&localKeyword=&pla_prdid=&pla_country=&pla_lang=&gclid=CjwKCAjw-L-ZBhB4EiwA76YzOSV6tkQtmr3pamjgB0mm4rB4d5LLU9t47nf5SE35UOdNDvo-gl87QBoCgRkQAvD_BwE">
-                                                <picture>
-                                                    <img className="img-fluid w-50" src="/ali baba.png" alt="img" />
-                                                </picture>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-3 col-md-3 col-6">
-                                    <div className="task_item youtube">
-                                        <h5>Amazone</h5>
-                                        <p>Like/Follow</p>
-                                        <div className="icon">
-                                            <Link href="https://shopping.myus.com/amazon/?aid=1006907&gclid=CjwKCAjw-L-ZBhB4EiwA76YzOQhhFdaN0Z06E6SQ8LuUO1wNIQuqRQM-aL8kMFTm6hYyXagkAEToSBoCVUwQAvD_BwE">
-                                                <picture>
-                                                    <img className="img-fluid w-50" src="/amajon.png" alt="img" />
-                                                </picture>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-3 col-md-3 col-6">
-                                    <div className="task_item">
-                                        <h5>Ali Baba</h5>
-                                        <p>Like/Follow</p>
-                                        <div className="icon">
-                                            <Link href="https://www.alibaba.com/?src=sem_ggl&from=sem_ggl&cmpgn=17514778232&adgrp=&fditm=&tgt=&locintrst=&locphyscl=1001441&mtchtyp=&ntwrk=x&device=c&dvcmdl=&creative=&plcmnt=&plcmntcat=&p1=&p2=&aceid=&position=&localKeyword=&pla_prdid=&pla_country=&pla_lang=&gclid=CjwKCAjw-L-ZBhB4EiwA76YzOSV6tkQtmr3pamjgB0mm4rB4d5LLU9t47nf5SE35UOdNDvo-gl87QBoCgRkQAvD_BwE">
-                                                <picture>
-                                                    <img className="img-fluid w-50" src="/ali baba.png" alt="img" />
-                                                </picture>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-lg-3 col-md-3 col-6">
-                                    <div className="task_item youtube">
-                                        <h5>Amazone</h5>
-                                        <p>Like/Follow</p>
-                                        <div className="icon">
-                                            <Link href="https://shopping.myus.com/amazon/?aid=1006907&gclid=CjwKCAjw-L-ZBhB4EiwA76YzOQhhFdaN0Z06E6SQ8LuUO1wNIQuqRQM-aL8kMFTm6hYyXagkAEToSBoCVUwQAvD_BwE">
-                                                <picture>
-                                                    <img className="img-fluid w-50" src="/amajon.png" alt="img" />
-                                                </picture>
-                                            </Link>
+                                <div className="col-lg-6 m-auto">
+                                    <div className="record_item_full">
+                                        <div className="screenshot_item">
+                                            <div className="item_main">
+                                                <div className="tittle">
+                                                    <h4>Screenshot</h4>
+                                                </div>
+                                                <div className="img_upload">
+                                                    <Link href="#">
+                                                        <i className="fa-regular fa-image"></i>
+                                                    </Link>
+                                                    <p>upload image</p>
+                                                </div>
+                                            </div>
+                                            <div className="diposite_bank_btn text-center">
+                                                <button>Upload</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section > */}
-                {/* <!--TASK HALL PART END-- > */}
+                </section>
 
 
                 {/* < !--Mobile Bottom ICON BAR PART START-- > */}
@@ -170,7 +114,7 @@ export default function Dashboard() {
                                             <Link href="/dashboard"><i className="fa-solid fa-house"></i></Link>
                                             <p>Home</p>
                                         </div>
-                            
+
                                         <div className="icon_item">
                                             <Link href="/ad"><i className="fa-solid fa-rectangle-ad"></i></Link>
                                             <p>Ad</p>

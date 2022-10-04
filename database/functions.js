@@ -34,14 +34,31 @@ async function getUsersWithDuePayment() {
     };
 }
 
-async function upsertUser(userID, email, balance, pendingWithdrawalBalance) {
+async function getUsersThatWereRefferdByUser(referredBy) {
+    const {
+        data,
+        error
+    } = await supabase
+        .from('users')
+        .select('*')
+        .eq('referredBy', referredBy)
+
+    return {
+        data,
+        error
+    };
+}
+
+
+
+async function upsertUser(userID, email, balance, pendingWithdrawalBalance, referredBy) {
 
     const {
         data,
         error
     } = await supabase
         .from('users')
-        .upsert([{ userID, email, balance, pendingWithdrawalBalance }])
+        .upsert([{ userID, email, balance, pendingWithdrawalBalance, referredBy }])
 
     return {
         data,
@@ -102,6 +119,7 @@ export {
     getUser,
     upsertUser,
     getUsersWithDuePayment,
+    getUsersThatWereRefferdByUser,
 
 
     createPaymentMethodsOfUser,

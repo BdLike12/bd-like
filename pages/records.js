@@ -3,7 +3,7 @@ import { useState } from "react";
 
 
 const PAGE_STATES = {
-    PROOF: "PROOF",
+    HISTORY: "HISTORY",
     PENDING: "PENDING",
     COMPLETED: "COMPLETED",
     REJECTED: "REJECTED",
@@ -92,39 +92,7 @@ export default function Records() {
             </section>
             {/* <!-- HEADING PART END --> */}
 
-            {
-                state === PAGE_STATES.PROOF &&
-                <section id="record_item">
-                    <div className="container">
-                        <div className="record_item_main">
-                            <div className="row">
-                                <div className="col-lg-6 m-auto">
-                                    <div className="record_item_full">
-                                        <div className="screenshot_item">
-                                            <div className="item_main">
-                                                <div className="tittle">
-                                                    <h4>Screenshot</h4>
-                                                </div>
-                                                <div className="img_upload">
-                                                    <Link href="#">
-                                                        <i className="fa-regular fa-image"></i>
-                                                    </Link>
-                                                    <p>upload image</p>
-                                                </div>
-                                            </div>
-                                            <div className="diposite_bank_btn text-center">
-                                                <button>Upload</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            }
-
-
+         
 
             {/* <!-- Mobile Bottom ICON BAR PART START --> */}
             <section id="icon" className="d-sm-none">
@@ -137,10 +105,7 @@ export default function Records() {
                                         <Link href="/dashboard"><i className="fa-solid fa-house"></i></Link>
                                         <p>Home</p>
                                     </div>
-                                    <div className="icon_item">
-                                        <Link href="/vip"><i className="fa-regular fa-gem"></i></Link>
-                                        <p>VIP</p>
-                                    </div>
+                                  
                                     <div className="icon_item">
                                         <Link href="#"><i className="fa-solid fa-rectangle-ad"></i></Link>
                                         <p>Ad</p>

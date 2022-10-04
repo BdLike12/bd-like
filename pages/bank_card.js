@@ -110,9 +110,7 @@ export default function Bank_card() {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" href="/vip">Vip</Link>
-                                </li>
+                             
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/ad">Ad</Link>
                                 </li>
@@ -235,10 +233,7 @@ export default function Bank_card() {
                                             <Link href="/dashboard"><i className="fa-solid fa-house"></i></Link>
                                             <p>Home</p>
                                         </div>
-                                        <div className="icon_item">
-                                            <Link href="/vip"><i className="fa-regular fa-gem"></i></Link>
-                                            <p>VIP</p>
-                                        </div>
+                                      
                                         <div className="icon_item">
                                             <Link href="/ad"><i className="fa-solid fa-rectangle-ad"></i></Link>
                                             <p>Ad</p>
