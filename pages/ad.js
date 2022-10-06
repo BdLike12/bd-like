@@ -18,7 +18,7 @@ const STATE = {
     LOAD_NEW_AD: "LOAD_NEW_AD",
 }
 
-const VIDEO_TIME = 3;
+const VIDEO_TIME = 15;
 
 export const TASK_STATUS = {
     CREATED: "CREATED",
