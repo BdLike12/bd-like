@@ -91,7 +91,12 @@ export default function Dashboard() {
         if (data && data.length !== 0) {
             let randomAd = data[parseInt(Math.random() * data.length)];
             setAd(randomAd);
-            setState(STATE.AD_LOADED);
+            if (randomAd.type === AD_TYPES.AD_NETWORK) {
+                setState(STATE.AD_RUNNING);
+            }
+            else {
+                setState(STATE.AD_LOADED);
+            }
         }
     }
 
@@ -237,6 +242,18 @@ export default function Dashboard() {
                             // onPlaybackRateChange={func}       // defaults -> noop
                             // onPlaybackQualityChange={func}    // defaults -> noop
                             />
+                        }
+
+                        {
+
+                            (ad.type === AD_TYPES.AD_NETWORK) &&
+                            <iframe style={{
+                                minHeight: "70vh",
+                                width: "100%",
+                            }}
+                                src={ad.link} >
+                            </iframe>
+
                         }
 
                     </div>
