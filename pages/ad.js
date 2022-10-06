@@ -137,9 +137,11 @@ export default function Dashboard() {
     }
     else if (!user) {
         return (
-            <div style={{ height: "98vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundImage: `url("/login_bg.jfif")`, backgroundRepeat: 'no-repeat', backgroundSize: "cover" }}>
                 <Link href="/api/auth/login">
-                    <a style={{ backgroundColor: "#dbdbdb", padding: "10px", borderRadius: "10px" }}> Login</a>
+                    <a
+                        style={{ padding: "20px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}
+                    > Login with google</a>
                 </Link>
             </div>
         )

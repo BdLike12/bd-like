@@ -21,9 +21,11 @@ export default function Dashboard() {
     }
     else if (!user) {
         return (
-            <div style={{ height: "98vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center", backgroundImage: `url("/login_bg.jfif")`, backgroundRepeat: 'no-repeat', backgroundSize: "cover" }}>
                 <Link href="/api/auth/login">
-                    <a style={{ backgroundColor: "#dbdbdb", padding: "10px", borderRadius: "10px" }}> Login</a>
+                    <a
+                        style={{ padding: "20px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}
+                    > Login with google</a>
                 </Link>
             </div>
         )
@@ -50,7 +52,7 @@ export default function Dashboard() {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
                                 </li>
-                          
+
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/ad">Ad</Link>
                                 </li>
@@ -170,7 +172,7 @@ export default function Dashboard() {
                                             <Link href="/dashboard"><i className="fa-solid fa-house"></i></Link>
                                             <p>Home</p>
                                         </div>
-                            
+
                                         <div className="icon_item">
                                             <Link href="/ad"><i className="fa-solid fa-rectangle-ad"></i></Link>
                                             <p>Ad</p>
