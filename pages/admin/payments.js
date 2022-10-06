@@ -1,9 +1,10 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react"
-import { getPaymentMethods, getUsersWithDuePayment, upsertUser } from "../../database/functions";
+import { getPaymentMethods, getUsersWithDuePayment, insertHistory, upsertUser } from "../../database/functions";
 import { constants } from "../../utils/constants";
 import { initializeUser } from "../../utils/initializeUser";
+import { generateRandomID } from "../../utils/randomID";
 
 export default function Payments() {
 
@@ -57,6 +58,8 @@ export default function Payments() {
         setLoad(true);
         let newPendingWithdrawalBalance = selected.pendingWithdrawalBalance - floatWithdrawalAmmount;
         await upsertUser(selected.userID, selected.email, selected.balance, newPendingWithdrawalBalance);
+        const history = `A payment of ${floatWithdrawalAmmount} $ was made to you.`;
+        await insertHistory(generateRandomID("HISTORY"), selected.userID, history);
         await fetchUsersWithDuePayment();
         setSelected(null);
         setLoad(false);

@@ -2,9 +2,10 @@ import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { getUser, getUsersThatWereRefferdByUser, upsertUser } from "../database/functions";
+import { getUser, getUsersThatWereRefferdByUser, insertHistory, upsertUser } from "../database/functions";
 import { constants } from "../utils/constants";
 import { initializeUser } from "../utils/initializeUser";
+import { generateRandomID } from "../utils/randomID";
 
 
 

@@ -39,7 +39,7 @@ export default function Bank_card() {
         setLoad(true);
         let newPendingWithdrawalBalance = fetchedUser.pendingWithdrawalBalance + parseFloat(withdrawalAmmount);
         let newBalance = fetchedUser.balance - parseFloat(withdrawalAmmount);
-        if (newBalance > 0) {
+        if (newBalance >= 0) {
             await upsertUser(fetchedUser.userID, fetchedUser.email, newBalance, newPendingWithdrawalBalance);
             const history = `You requested to withdraw ${withdrawalAmmount} $, current balance = ${newBalance} $, pending withdraw of ${newPendingWithdrawalBalance} $`;
             await insertHistory(generateRandomID("HISTORY"), user.sub, history);
