@@ -186,7 +186,7 @@ export default function Dashboard() {
 
                 {
                     (state === STATE.NO_AD_AVAILABLE) &&
-                    <div style={{ display: "flex", justifyContent: "center", padding: "10px", minHeight: "70vh" }}>
+                    <div style={{ border: "1px solid black", display: "flex", justifyContent: "center", padding: "10px", minHeight: "70vh" }}>
                         <h3>No ads available for now</h3>
                     </div>
                 }
@@ -218,7 +218,7 @@ export default function Dashboard() {
                                 onReady={() => { console.log('ready') }}
                                 onPlay={() => { setState(STATE.AD_RUNNING) }}
                                 onPause={() => { setState(STATE.AD_PAUSED) }}
-                                onEnd={() => { setState(STATE.TAKE_PROOF); }}
+                                onEnd={() => { (time <= 0) && setState(STATE.TAKE_PROOF); }}
                             // onError={func}                    // defaults -> noop
                             // onStateChange={func}              // defaults -> noop
                             // onPlaybackRateChange={func}       // defaults -> noop
@@ -231,7 +231,7 @@ export default function Dashboard() {
 
                 {
                     (state === STATE.TAKE_PROOF) &&
-                    <div style={{ padding: "10px", wordBreak: "break-all", padding: "10px", minHeight: "70vh" }}>
+                    <div style={{ border: "1px solid black", padding: "10px", wordBreak: "break-all", padding: "10px", minHeight: "70vh" }}>
                         <h1>Take screenshot </h1>
                         <h5>Task ID : {task.taskID} </h5>
                         <h5>Task Secret : {task.secret} </h5>
@@ -262,7 +262,7 @@ export default function Dashboard() {
                                                         <div className="tittle">
                                                             <h4></h4>
                                                         </div>
-                                                        <input type="file" accept="image/a"
+                                                        <input type="file" accept="image/*"
                                                             onChange={async (e) => setFiles(e.target.files)} />
                                                     </div>
                                                     <div className="diposite_bank_btn text-center">
@@ -281,8 +281,8 @@ export default function Dashboard() {
 
                 {
                     (state === STATE.LOAD_NEW_AD) &&
-                    <div style={{ padding: "10px", minHeight: "70vh" }}>
-                        <h1>
+                    <div style={{ border: "1px solid black", padding: "10px", minHeight: "70vh" }}>
+                        <h1 style={{ textAlign: "center" }}>
                             Proof Submitted
                         </h1>
                         <div className="diposite_bank_btn text-center">

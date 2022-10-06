@@ -211,6 +211,22 @@ async function getTasks(status) {
     }
 }
 
+async function getTasksOfUser(taskerID, status) {
+    let {
+        data, error
+    } = await supabase
+        .from('tasks')
+        .select('*')
+        .eq('taskerID', taskerID)
+        .eq('status', status);
+
+    return {
+        data,
+        error
+    }
+}
+
+
 async function addProofOfTask(taskID, proof, status) {
 
     const {
@@ -266,4 +282,5 @@ export {
     getTasks,
     addProofOfTask,
     changeTaskStatus,
+    getTasksOfUser,
 }
