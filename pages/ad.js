@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react"
-import { addProofOfTask, addProveImage, getAds, insertTask } from "../database/functions";
+import { addProofOfTask, addProveImage, getAds, insertHistory, insertTask } from "../database/functions";
 import { initializeUser } from "../utils/initializeUser";
 import YouTube from 'react-youtube';
 import { generateRandomID } from "../utils/randomID";
@@ -76,6 +76,9 @@ export default function Dashboard() {
         console.log(filename);
         const { data, error } = await addProveImage(filename, file);
         await addProofOfTask(task.taskID, filename, TASK_STATUS.PENDING);
+        // insert history
+        const history = `You submitted proof for "Task ${task.taskID}", review pending`;
+        await insertHistory(generateRandomID("HISTORY"), user.sub, history);
         console.log(data);
         setState(STATE.LOAD_NEW_AD);
         setLoad(false);

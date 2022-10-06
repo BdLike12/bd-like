@@ -1,10 +1,11 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react"
-import { changeTaskStatus, getTasks, getUser, upsertUser } from "../../database/functions";
+import { changeTaskStatus, getTasks, getUser, insertHistory, upsertUser } from "../../database/functions";
 import { constants } from "../../utils/constants";
 import { initializeUser } from "../../utils/initializeUser";
 import { isNumeric } from "../../utils/isNumeric";
+import { generateRandomID } from "../../utils/randomID";
 import { TASK_STATUS } from "../ad";
 
 export default function Dashboard() {
@@ -31,9 +32,6 @@ export default function Dashboard() {
         if (!isNumeric(pay)) return;
         setLoad(true);
         await changeTaskStatus(taskID, TASK_STATUS.ACCEPTED);
-        // pay
-
-        // add payment to referrer (not implemented)
 
 
         // pay the tasker
@@ -41,9 +39,9 @@ export default function Dashboard() {
         let tasker = null;
         if (fetchedUserDataArray.length !== 0) {
             tasker = fetchedUserDataArray[0];
-            console.log(tasker);
             await upsertUser(tasker.userID, tasker.email, (tasker.balance + parseFloat(pay)), tasker.pendingWithdrawalBalance, tasker.referredBy);
-            console.log(fetchedUserDataArray);
+            const history = `Task ID : ${taskID}. Your task was approved. You got payed ${pay} $`;
+            await insertHistory(generateRandomID("HISTORY"), tasker.userID, history);
         }
 
         await loadPendingTasks();
@@ -51,9 +49,11 @@ export default function Dashboard() {
         setLoad(false);
     }
 
-    async function denyTask(taskID) {
+    async function denyTask(taskID, taskerID) {
         setLoad(true);
         await changeTaskStatus(taskID, TASK_STATUS.DENIED);
+        const history = `Task ID : ${taskID}. Your task was denied.`;
+        await insertHistory(generateRandomID("HISTORY"), taskerID, history);
         await loadPendingTasks();
         location.reload();
         setLoad(false);
@@ -164,7 +164,7 @@ export default function Dashboard() {
                                                 Approve task
                                             </button>
                                             <button
-                                                onClick={async () => { await denyTask(task.taskID) }}
+                                                onClick={async () => { await denyTask(task.taskID, task.taskerID) }}
                                                 style={{ padding: "5px", margin: "10px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}>
                                                 Deny task
                                             </button>

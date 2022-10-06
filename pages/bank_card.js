@@ -1,8 +1,9 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getPaymentMethods, getUser, updatePaymentMethodsOfUser, upsertUser } from "../database/functions";
+import { getPaymentMethods, getUser, insertHistory, updatePaymentMethodsOfUser, upsertUser } from "../database/functions";
 import { initializeUser } from "../utils/initializeUser";
+import { generateRandomID } from "../utils/randomID";
 
 
 export default function Bank_card() {
@@ -28,16 +29,20 @@ export default function Bank_card() {
     async function updatePaymentMethod() {
         setLoad(true);
         await updatePaymentMethodsOfUser(user.sub, fullName, accountNumber, cardNumber, bkashNumber, bankName);
+        // add history
+        const history = `You updated the payment methods information in your profile`;
+        await insertHistory(generateRandomID("HISTORY"), user.sub, history);
         setLoad(false);
     }
 
     async function withdrawRequest() {
         setLoad(true);
-        let newPendingWithdrawalBalance = fetchedUser.pendingWithdrawalBalance + parseInt(withdrawalAmmount);
-        let newBalance = fetchedUser.balance - parseInt(withdrawalAmmount);
-        if(newBalance > 0)
-        {
+        let newPendingWithdrawalBalance = fetchedUser.pendingWithdrawalBalance + parseFloat(withdrawalAmmount);
+        let newBalance = fetchedUser.balance - parseFloat(withdrawalAmmount);
+        if (newBalance > 0) {
             await upsertUser(fetchedUser.userID, fetchedUser.email, newBalance, newPendingWithdrawalBalance);
+            const history = `You requested to withdraw ${withdrawalAmmount} $, current balance = ${newBalance} $, pending withdraw of ${newPendingWithdrawalBalance} $`;
+            await insertHistory(generateRandomID("HISTORY"), user.sub, history);
         }
         setWithdrawalAmmount(0);
         setLoad(false);
@@ -110,7 +115,7 @@ export default function Bank_card() {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
                                 </li>
-                             
+
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/ad">Ad</Link>
                                 </li>
@@ -170,7 +175,7 @@ export default function Bank_card() {
 
                         <div className="bank_name_main" style={{ display: "block" }}>
                             <div className="bank_btn text-center">
-                                <button onClick={async ()=>{await withdrawRequest()}}>request withdrawal</button>
+                                <button onClick={async () => { await withdrawRequest() }}>request withdrawal</button>
                             </div>
                         </div>
 
@@ -233,7 +238,7 @@ export default function Bank_card() {
                                             <Link href="/dashboard"><i className="fa-solid fa-house"></i></Link>
                                             <p>Home</p>
                                         </div>
-                                      
+
                                         <div className="icon_item">
                                             <Link href="/ad"><i className="fa-solid fa-rectangle-ad"></i></Link>
                                             <p>Ad</p>

@@ -51,8 +51,13 @@ export default function Profile() {
         console.log(fetchedUserDataArray);
         let referrer = null;
         if (fetchedUserDataArray.length !== 0) referrer = fetchedUserDataArray[0];
-        // add money to referrer
-        await upsertUser(referrer.userID, referrer.email, (referrer.balance + constants.REFERRAL_PAYOUT), referrer.pendingWithdrawalBalance, referrer.referredBy);
+
+        if (referrer) {
+            await upsertUser(referrer.userID, referrer.email, (referrer.balance + constants.REFERRAL_PAYOUT), referrer.pendingWithdrawalBalance, referrer.referredBy);
+            const history = `You referred a new user to this site! You got payed : ${constants.REFERRAL_PAYOUT} $`;
+            await insertHistory(generateRandomID("HISTORY"), referrer.userID, history);
+        }
+
         await fetchUser();
         setLoad(true);
     }
@@ -102,7 +107,7 @@ export default function Profile() {
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/dashboard">Home</Link>
                                 </li>
-                              
+
                                 <li className="nav-item">
                                     <Link className="nav-link active" aria-current="page" href="/ad">Ad</Link>
                                 </li>
