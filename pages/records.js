@@ -1,7 +1,7 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getTasksOfUser } from "../database/functions";
+import { getTasksOfUser, getUser, getUsersHistory } from "../database/functions";
 import { initializeUser } from "../utils/initializeUser";
 import { TASK_STATUS } from "./ad";
 
@@ -21,13 +21,27 @@ export default function Records() {
     const [load, setLoad] = useState(false);
 
     const [state, setState] = useState(PAGE_STATES.HISTORY);
+    const [histories, setHistories] = useState([]);
     const [tasks, setTasks] = useState([]);
     const { user, isLoading } = useUser();
 
 
     useEffect(() => {
         initializeUser(user);
-    }, [user])
+    }, [user]);
+
+    async function loadHistory() {
+        if (!user) return;
+
+        if (state === PAGE_STATES.HISTORY) {
+            setLoad(true);
+            const { data, error } = await getUsersHistory(user.sub);
+            if (data) setHistories(data);
+            setLoad(false);
+        }
+
+    }
+
 
 
     async function loadTasks() {
@@ -61,6 +75,7 @@ export default function Records() {
 
     useEffect(() => {
         loadTasks();
+        loadHistory();
     }, [state, user]);
 
 
@@ -159,6 +174,44 @@ export default function Records() {
                     </div>
                 </section>
                 {/* <!-- HEADING PART END --> */}
+
+
+                {
+                    (state === PAGE_STATES.HISTORY) &&
+                    <div style={{ border: "1px solid black", width: "94%", margin: "3%", marginBottom: "10vh", height: "80vh", padding: "10px", overflowY: "scroll" }}>
+                        {
+                            (histories && histories.length === 0) &&
+                            <h3 style={{ textAlign: "center", marginBottom: "30px" }}>
+                                No History to show!
+                            </h3>
+                        }
+                        {
+                            histories.map((history) => {
+                                return (
+                                    <div key={history.historyID} style={{
+                                        maxWidth: "95%",
+                                        margin: "auto",
+                                        marginBottom: "10px",
+                                        padding: "10px",
+                                        border: "1px solid black",
+                                        display: "flex",
+                                        gap: "10px",
+                                        flexDirection: "column",
+                                    }}>
+
+                                        <h4 style={{ wordBreak: "break-all" }}>{history.content}</h4>
+                                        <h5>
+                                            {
+                                                (new Date(history.timestamp)).toLocaleString('en-US')
+                                            }
+                                        </h5>
+                                    </div>
+                                )
+                            })
+                        }
+
+                    </div>
+                }
 
 
                 {
