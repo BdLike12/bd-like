@@ -261,6 +261,39 @@ async function changeTaskStatus(taskID, status) {
 
 
 
+async function insertHistory(historyID, userID, content) {
+
+    let timestamp = Date.now();
+    const {
+        data,
+        error
+    } = await supabase
+        .from('history')
+        .insert([{ historyID, userID, content, timestamp }])
+
+    return {
+        data,
+        error
+    }
+}
+
+async function getUsersHistory(userID) {
+    let {
+        data, error
+    } = await supabase
+        .from('history')
+        .select('*')
+        .eq('userID', userID)
+
+    return {
+        data,
+        error
+    }
+}
+
+
+
+
 export {
     getUser,
     upsertUser,
@@ -283,4 +316,7 @@ export {
     addProofOfTask,
     changeTaskStatus,
     getTasksOfUser,
+
+    insertHistory,
+    getUsersHistory
 }

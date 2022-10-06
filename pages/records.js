@@ -2,6 +2,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getTasksOfUser } from "../database/functions";
+import { initializeUser } from "../utils/initializeUser";
 import { TASK_STATUS } from "./ad";
 
 
@@ -11,12 +12,6 @@ const PAGE_STATES = {
     COMPLETED: "COMPLETED",
     REJECTED: "REJECTED",
 }
-
-
-
-const stateLinkStyle = {
-
-};
 
 
 
@@ -30,8 +25,12 @@ export default function Records() {
     const { user, isLoading } = useUser();
 
 
-    async function loadTasks() {
+    useEffect(() => {
+        initializeUser(user);
+    }, [user])
 
+
+    async function loadTasks() {
         if (!user) return;
 
 
@@ -151,7 +150,7 @@ export default function Records() {
                                 </div>
                                 <div className="col-3">
                                     <div className="heading_item">
-                                        <div href="#rejected-tasks" 
+                                        <div href="#rejected-tasks"
                                             onClick={() => { setState(PAGE_STATES.REJECTED) }}>Rejected</div>
                                     </div>
                                 </div>

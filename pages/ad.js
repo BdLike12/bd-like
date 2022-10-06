@@ -93,7 +93,7 @@ export default function Dashboard() {
     }
 
     async function createTask(user) {
-        if (!user || !ad) return;
+        if (!user || !ad || task) return;
 
         let taskID = generateRandomID("TASK");
         let taskerID = user.sub;
@@ -102,17 +102,19 @@ export default function Dashboard() {
         let link = ad.link;
         let status = TASK_STATUS.CREATED;
 
+        setLoad(true);
         let { data, error } = await insertTask(taskID, taskerID, secret, proof, link, status);
         if (data && data.length !== 0) setTask(data[0]);
+        setLoad(false);
     }
 
     useEffect(() => {
         loadAd();
     }, []);
 
-    useEffect(() => {
-        createTask(user);
-    }, [user, ad]);
+    // useEffect(() => {
+    //     createTask(user);
+    // }, [user, ad]);
 
 
     useEffect(() => {
@@ -198,7 +200,10 @@ export default function Dashboard() {
                     <div style={{}}>
 
                         <button
-                            onClick={() => { if (time < 0) setState(STATE.TAKE_PROOF); }}
+                            onClick={async () => {
+                                await createTask(user);
+                                if (time < 0) setState(STATE.TAKE_PROOF);
+                            }}
                             style={{ margin: "10px", borderRadius: "50%", backgroundColor: "black", color: "white", padding: "20px", border: "1px solid white" }}>
                             {(time > 0) ? (time + " seconds") : "X"}
                         </button>
@@ -218,7 +223,10 @@ export default function Dashboard() {
                                 onReady={() => { console.log('ready') }}
                                 onPlay={() => { setState(STATE.AD_RUNNING) }}
                                 onPause={() => { setState(STATE.AD_PAUSED) }}
-                                onEnd={() => { (time <= 0) && setState(STATE.TAKE_PROOF); }}
+                                onEnd={async () => {
+                                    await createTask(user);
+                                    (time <= 0) && setState(STATE.TAKE_PROOF);
+                                }}
                             // onError={func}                    // defaults -> noop
                             // onStateChange={func}              // defaults -> noop
                             // onPlaybackRateChange={func}       // defaults -> noop
