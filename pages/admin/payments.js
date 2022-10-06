@@ -115,11 +115,21 @@ export default function Payments() {
 
                 {(selected === null) &&
                     <div style={{ border: "1px solid black", width: "94%", marginLeft: "3%", height: "80vh", padding: "10px", overflowY: "scroll" }}>
-                        <h3 style={{}}> Payment Due</h3>
 
                         {
+                            (!usersWithDue || usersWithDue.length === 0) ? <h1>No payment left to process</h1> : <h1>Payment Due</h1>
+                        }
+                        {
+
+
                             usersWithDue.map((user) => {
-                                return <div key={user.userID} style={{ maxWidth: "95%", marginBottom: "10px", borderBottom: "1px solid black" }}>
+                                return <div key={user.userID} style={{
+                                    maxWidth: "95%",
+                                    margin: "auto",
+                                    marginBottom: "10px",
+                                    padding: "10px",
+                                    border: "1px solid black",
+                                }}>
                                     <div>
                                         {user.email}
                                     </div>

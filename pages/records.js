@@ -15,7 +15,7 @@ const stateLinkStyle = {
 export default function Records() {
 
     const [navopen, setNavopen] = useState(false);
-    const [state, setState] = useState(PAGE_STATES.PROOF);
+    const [state, setState] = useState(PAGE_STATES.HISTORY);
     return (
         <div>
             {/* <!-- navbar part start --> */}
@@ -64,8 +64,8 @@ export default function Records() {
                         <div className="row">
                             <div className="col-3">
                                 <div className="heading_item">
-                                    <div href="#proof"
-                                        onClick={() => { setState(PAGE_STATES.PROOF) }}>Submit Proof</div>
+                                    <div href="#history"
+                                        onClick={() => { setState(PAGE_STATES.HISTORY) }}>payment history</div>
                                 </div>
                             </div>
                             <div className="col-3">

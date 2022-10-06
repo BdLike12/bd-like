@@ -1325,3 +1325,15 @@ body {
 .fa-solid {
   font-size: xx-large;
 }
+
+.youtube-video-player
+{
+  background-color: #000;
+  width: 100vw;
+  height: 70vh;
+}
+.youtube-video-player iframe
+{
+  width: 100%;
+  height: 100%;
+}

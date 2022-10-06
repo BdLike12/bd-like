@@ -34,6 +34,9 @@ async function getUsersWithDuePayment() {
     };
 }
 
+
+
+
 async function getUsersThatWereRefferdByUser(referredBy) {
     const {
         data,
@@ -115,6 +118,133 @@ async function updatePaymentMethodsOfUser(userID, fullName, bankAccount, cardNum
 }
 
 
+async function insertAd(adID, type, link) {
+
+    const {
+        data,
+        error
+    } = await supabase
+        .from('ads')
+        .insert([{ adID, type, link }])
+
+    return {
+        data,
+        error
+    }
+}
+
+
+async function getAds() {
+    const {
+        data,
+        error
+    } = await supabase
+        .from('ads')
+        .select('*');
+
+    return {
+        data,
+        error
+    };
+}
+
+async function deleteAd(adID) {
+    const {
+        data,
+        error
+    } = await supabase
+        .from('ads')
+        .delete()
+        .match({
+            adID: adID
+        });
+
+    return {
+        data,
+        error
+    };
+}
+
+async function addProveImage(filename, file) {
+
+    // delete the image if there is already an image with the same filename
+    const { data: deleteData, error: deleteError } = await supabase.storage.from('proofs').remove([filename])
+    console.log("deleteData", deleteData);
+
+    const { data,
+        error
+    } = await supabase.storage
+        .from('proofs')
+        .upload(filename, file);
+
+    return { data, error }
+}
+
+
+
+async function insertTask(taskID, taskerID, secret, proof, link, status) {
+    const {
+        data,
+        error
+    } = await supabase
+        .from('tasks')
+        .insert([{ taskID, taskerID, secret, proof, link, status }])
+
+    return {
+        data,
+        error
+    }
+
+}
+
+async function getTasks(status) {
+    let {
+        data, error
+    } = await supabase
+        .from('tasks')
+        .select('*')
+        .eq('status', status);
+
+    return {
+        data,
+        error
+    }
+}
+
+async function addProofOfTask(taskID, proof, status) {
+
+    const {
+        data,
+        error
+    } = await supabase
+        .from('tasks')
+        .update([{ proof, status }])
+        .eq("taskID", taskID)
+
+    return {
+        data,
+        error
+    }
+}
+
+async function changeTaskStatus(taskID, status) {
+
+    const {
+        data,
+        error
+    } = await supabase
+        .from('tasks')
+        .update([{ status }])
+        .eq("taskID", taskID)
+
+    return {
+        data,
+        error
+    }
+}
+
+
+
 export {
     getUser,
     upsertUser,
@@ -125,4 +255,15 @@ export {
     createPaymentMethodsOfUser,
     getPaymentMethods,
     updatePaymentMethodsOfUser,
+
+    insertAd,
+    getAds,
+    deleteAd,
+
+    addProveImage,
+
+    insertTask,
+    getTasks,
+    addProofOfTask,
+    changeTaskStatus,
 }

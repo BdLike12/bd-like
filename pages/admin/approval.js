@@ -1,19 +1,69 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react"
+import { changeTaskStatus, getTasks, getUser, upsertUser } from "../../database/functions";
 import { constants } from "../../utils/constants";
 import { initializeUser } from "../../utils/initializeUser";
+import { isNumeric } from "../../utils/isNumeric";
+import { TASK_STATUS } from "../ad";
 
 export default function Dashboard() {
 
     const [navopen, setNavopen] = useState(false);
+    const [load, setLoad] = useState(false);
+
     const { user, isLoading } = useUser();
+    const [pay, setPay] = useState(0);
+
+    const [pendingTasks, setPendingTasks] = useState([]);
 
     useEffect(() => {
         initializeUser(user);
     }, [user])
 
-    if (isLoading) {
+    async function loadPendingTasks() {
+        const { data, error } = await getTasks(TASK_STATUS.PENDING);
+        if (data && data.length !== 0) setPendingTasks(data);
+    }
+
+    async function approveTask(taskID, taskerID, pay) {
+
+        if (!isNumeric(pay)) return;
+        setLoad(true);
+        await changeTaskStatus(taskID, TASK_STATUS.ACCEPTED);
+        // pay
+
+        // add payment to referrer (not implemented)
+
+
+        // pay the tasker
+        const { data: fetchedUserDataArray, error } = await getUser(taskerID);
+        let tasker = null;
+        if (fetchedUserDataArray.length !== 0) {
+            tasker = fetchedUserDataArray[0];
+            console.log(tasker);
+            await upsertUser(tasker.userID, tasker.email, (tasker.balance + parseFloat(pay)), tasker.pendingWithdrawalBalance, tasker.referredBy);
+            console.log(fetchedUserDataArray);
+        }
+
+        await loadPendingTasks();
+        location.reload();
+        setLoad(false);
+    }
+
+    async function denyTask(taskID) {
+        setLoad(true);
+        await changeTaskStatus(taskID, TASK_STATUS.DENIED);
+        await loadPendingTasks();
+        location.reload();
+        setLoad(false);
+    }
+
+    useEffect(() => {
+        loadPendingTasks()
+    }, [])
+
+    if (isLoading || load) {
         return (
             <div>
                 <p>loading . . .</p>
@@ -66,49 +116,67 @@ export default function Dashboard() {
                 {/* use database */}
                 <div>
                     <div style={{ border: "1px solid black", width: "94%", margin: "3%", marginBottom: "10vh", height: "80vh", padding: "10px", overflowY: "scroll" }}>
-                        <div style={{
-                            maxWidth: "95%",
-                            margin: "auto",
-                            marginBottom: "10px",
-                            padding: "10px",
-                            border: "1px solid black",
-                        }}>
 
-                            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                                <h3>Task ID</h3>
-                                <h5>{" " + 19023809128390}</h5>
-                            </div>
-                            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                                <h3>Task Secret</h3>
-                                <h5>{" " + 19023809128390}</h5>
-                            </div>
+                        {
+                            (pendingTasks.length === 0) && <h1>No Tasks left to review</h1>
+                        }
 
-                            <img style={{ minWidth: "90%", maxWidth: "90%", margin: "5%" }} className="img-fluid" src="/admin_bg.jpg" alt="img" />
+                        {
+                            pendingTasks.map((task) => {
+                                return (
+                                    <div key={task.taskID} style={{
+                                        maxWidth: "95%",
+                                        margin: "auto",
+                                        marginBottom: "10px",
+                                        padding: "10px",
+                                        border: "1px solid black",
+                                    }}>
 
-                            <h3>Payment ammount</h3>
+                                        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                                            <h3>Task ID</h3>
+                                            <h5 style={{ wordBreak: "break-all", }}>{" " + task.taskID}</h5>
+                                        </div>
+                                        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                                            <h3>Task Secret</h3>
+                                            <h5 style={{ wordBreak: "break-all", }}>{" " + task.secret}</h5>
+                                        </div>
 
-                            <input type="text" placeholder="payment ammount" style={{
-                                margin: "10px",
-                                backgroundColor: "transparent",
-                                borderLeft: "none",
-                                borderTop: "none",
-                                borderRight: "none",
-                                borderBottom: "1px solid black"
-                            }}
-                                onChange={(e) => { }}
-                            />
+                                        <img style={{ minWidth: "90%", maxWidth: "90%", margin: "5%", border: "2px solid black" }} className="img-fluid" src={`${constants.SUPABASE_PROOF_IMAGES_URL}${task.proof}`} alt="img" />
+
+                                        <h3>Payment ammount</h3>
+
+                                        <input type="text" placeholder="payment ammount" style={{
+                                            margin: "10px",
+                                            backgroundColor: "transparent",
+                                            borderLeft: "none",
+                                            borderTop: "none",
+                                            borderRight: "none",
+                                            borderBottom: "1px solid black"
+                                        }}
+                                            onChange={(e) => { setPay(e.target.value) }}
+                                        />
 
 
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <button style={{ padding: "5px", margin: "10px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}>
-                                    Approve task
-                                </button>
-                                <button style={{ padding: "5px", margin: "10px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}>
-                                    Deny task
-                                </button>
+                                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                            <button
+                                                onClick={async () => { await approveTask(task.taskID, task.taskerID, pay) }}
+                                                style={{ padding: "5px", margin: "10px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}>
+                                                Approve task
+                                            </button>
+                                            <button
+                                                onClick={async () => { await denyTask(task.taskID) }}
+                                                style={{ padding: "5px", margin: "10px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}>
+                                                Deny task
+                                            </button>
 
-                            </div>
-                        </div>
+                                        </div>
+                                    </div>
+                                )
+
+                            })
+                        }
+
+
                     </div>
                 </div>
 

@@ -1,18 +1,129 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useEffect, useState } from "react"
+import { addProofOfTask, addProveImage, getAds, insertTask } from "../database/functions";
 import { initializeUser } from "../utils/initializeUser";
+import YouTube from 'react-youtube';
+import { generateRandomID } from "../utils/randomID";
+import { AD_TYPES } from "./admin/ad";
+
+
+const STATE = {
+    NO_AD_AVAILABLE: "NO_AD_AVAILABLE",
+    AD_LOADED: "AD_LOADED",
+    AD_RUNNING: "AD_RUNNING",
+    AD_PAUSED: "AD_PAUSED",
+    TAKE_PROOF: "TAKE_PROOF",
+    SUBMIT_PRROF: "SUBMIT_PROOF",
+    LOAD_NEW_AD: "LOAD_NEW_AD",
+}
+
+const VIDEO_TIME = 3;
+
+export const TASK_STATUS = {
+    CREATED: "CREATED",
+    PENDING: "PENDING",
+    DENIED: "DENIED",
+    ACCEPTED: "ACCEPTED"
+}
 
 export default function Dashboard() {
 
     const [navopen, setNavopen] = useState(false);
+    const [load, setLoad] = useState(false);
+    const [files, setFiles] = useState(null);
     const { user, isLoading } = useUser();
+    const [ad, setAd] = useState(null);
+
+    const [state, setState] = useState(STATE.NO_AD_AVAILABLE);
+    const [time, setTime] = useState(VIDEO_TIME);
+
+    const [task, setTask] = useState(null);
+
+
+
+
+    useEffect(() => {
+        console.log(state);
+        let interval = null;
+        if (state === STATE.AD_RUNNING && interval === null) {
+            interval = setInterval(() => {
+                setTime((time) => time - 1);
+            }, 1000);
+        }
+        else {
+            clearInterval(interval);
+        }
+
+        return () => {
+            clearInterval(interval);
+        };
+
+    }, [state])
+
+
+
+
+
+    async function handleUpload(files) {
+        setLoad(true);
+        let file = null;
+        if (files) {
+            file = files[0];
+        }
+        if (!file) return;
+        let filename = task.taskID + "." + file.name.split(".")[1];
+        console.log(filename);
+        const { data, error } = await addProveImage(filename, file);
+        await addProofOfTask(task.taskID, filename, TASK_STATUS.PENDING);
+        console.log(data);
+        setState(STATE.LOAD_NEW_AD);
+        setLoad(false);
+    }
+
+
+    async function loadAd() {
+        const { data, error } = await getAds();
+        console.log(data);
+        if (data && data.length !== 0) {
+            let randomAd = data[parseInt(Math.random() * data.length)];
+            setAd(randomAd);
+            setState(STATE.AD_LOADED);
+        }
+    }
+
+    async function createTask(user) {
+        if (!user || !ad) return;
+
+        let taskID = generateRandomID("TASK");
+        let taskerID = user.sub;
+        let secret = generateRandomID("SECRET");
+        let proof = '';
+        let link = ad.link;
+        let status = TASK_STATUS.CREATED;
+
+        let { data, error } = await insertTask(taskID, taskerID, secret, proof, link, status);
+        if (data && data.length !== 0) setTask(data[0]);
+    }
+
+    useEffect(() => {
+        loadAd();
+    }, []);
+
+    useEffect(() => {
+        createTask(user);
+    }, [user, ad]);
+
 
     useEffect(() => {
         initializeUser(user);
-    }, [user])
+    }, [user]);
 
-    if (isLoading) {
+
+
+
+
+    if (isLoading || load) {
         return (
             <div>
                 <p>loading . . .</p>
@@ -72,36 +183,119 @@ export default function Dashboard() {
 
                 < div className="line" ></div >
 
-                {/* <!--TASK HALL PART START-- > */}
-                <section id="record_item">
-                    <div className="container">
-                        <div className="record_item_main">
-                            <div className="row">
-                                <div className="col-lg-6 m-auto">
-                                    <div className="record_item_full">
-                                        <div className="screenshot_item">
-                                            <div className="item_main">
-                                                <div className="tittle">
-                                                    <h4>Screenshot</h4>
+
+                {
+                    (state === STATE.NO_AD_AVAILABLE) &&
+                    <div style={{ display: "flex", justifyContent: "center", padding: "10px", minHeight: "70vh" }}>
+                        <h3>No ads available for now</h3>
+                    </div>
+                }
+
+                {
+
+
+                    ((state === STATE.AD_LOADED) || (state === STATE.AD_RUNNING) || (state === STATE.AD_PAUSED)) &&
+                    <div style={{}}>
+
+                        <button
+                            onClick={() => { if (time < 0) setState(STATE.TAKE_PROOF); }}
+                            style={{ margin: "10px", borderRadius: "50%", backgroundColor: "black", color: "white", padding: "20px", border: "1px solid white" }}>
+                            {(time > 0) ? (time + " seconds") : "X"}
+                        </button>
+
+                        {
+
+                            (ad.type === AD_TYPES.YOUTUBE) &&
+                            < YouTube
+                                videoId={ad.link}                  // defaults -> ''
+                                // id={string}                       // defaults -> ''
+                                className="youtube-video-player"                // defaults -> ''
+                                // iframeClassName={string}          // defaults -> ''
+                                // style={object}                    // defaults -> { }
+                                // title={string}                    // defaults -> ''
+                                // loading={string}                  // defaults -> undefined
+                                // opts={obj}                        // defaults -> { }
+                                onReady={() => { console.log('ready') }}
+                                onPlay={() => { setState(STATE.AD_RUNNING) }}
+                                onPause={() => { setState(STATE.AD_PAUSED) }}
+                                onEnd={() => { setState(STATE.TAKE_PROOF); }}
+                            // onError={func}                    // defaults -> noop
+                            // onStateChange={func}              // defaults -> noop
+                            // onPlaybackRateChange={func}       // defaults -> noop
+                            // onPlaybackQualityChange={func}    // defaults -> noop
+                            />
+                        }
+
+                    </div>
+                }
+
+                {
+                    (state === STATE.TAKE_PROOF) &&
+                    <div style={{ padding: "10px", wordBreak: "break-all", padding: "10px", minHeight: "70vh" }}>
+                        <h1>Take screenshot </h1>
+                        <h5>Task ID : {task.taskID} </h5>
+                        <h5>Task Secret : {task.secret} </h5>
+                        <div className="diposite_bank_btn text-center">
+                            <button
+                                style={{ padding: "5px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}
+                                onClick={() => { setState(STATE.SUBMIT_PRROF) }}>
+                                Done
+                            </button>
+                        </div>
+                    </div>
+                }
+
+
+                {
+                    (state === STATE.SUBMIT_PRROF) &&
+                    <div style={{ padding: "10px" }}>
+
+                        <h1>Upload screenshot </h1>
+                        <section id="record_item">
+                            <div className="container">
+                                <div className="record_item_main">
+                                    <div className="row">
+                                        <div className="col-lg-6 m-auto">
+                                            <div className="record_item_full">
+                                                <div className="screenshot_item">
+                                                    <div className="item_main">
+                                                        <div className="tittle">
+                                                            <h4></h4>
+                                                        </div>
+                                                        <input type="file" accept="image/a"
+                                                            onChange={async (e) => setFiles(e.target.files)} />
+                                                    </div>
+                                                    <div className="diposite_bank_btn text-center">
+                                                        <button onClick={async () => { handleUpload(files) }}>Upload</button>
+                                                    </div>
                                                 </div>
-                                                <div className="img_upload">
-                                                    <Link href="#">
-                                                        <i className="fa-regular fa-image"></i>
-                                                    </Link>
-                                                    <p>upload image</p>
-                                                </div>
-                                            </div>
-                                            <div className="diposite_bank_btn text-center">
-                                                <button>Upload</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </section>
+                    </div>
+                }
+
+
+                {
+                    (state === STATE.LOAD_NEW_AD) &&
+                    <div style={{ padding: "10px", minHeight: "70vh" }}>
+                        <h1>
+                            Proof Submitted
+                        </h1>
+                        <div className="diposite_bank_btn text-center">
+                            <button
+                                style={{ padding: "5px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}
+                                onClick={() => { location.reload() }}>
+                                Load New Ad
+                            </button>
                         </div>
                     </div>
-                </section>
+                }
 
+                {/* <!--TASK HALL PART START-- > */}
 
                 {/* < !--Mobile Bottom ICON BAR PART START-- > */}
                 <section id="icon" className="d-sm-none">
@@ -110,12 +304,12 @@ export default function Dashboard() {
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div className="icon_div">
-                                        <div className="icon_item active">
+                                        <div className="icon_item">
                                             <Link href="/dashboard"><i className="fa-solid fa-house"></i></Link>
                                             <p>Home</p>
                                         </div>
 
-                                        <div className="icon_item">
+                                        <div className="icon_item active">
                                             <Link href="/ad"><i className="fa-solid fa-rectangle-ad"></i></Link>
                                             <p>Ad</p>
                                         </div>
