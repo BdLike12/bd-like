@@ -180,7 +180,7 @@ export default function Dashboard() {
                                     <h3 style={{ maxWidth: "max-content", marginRight: "10px" }}>
                                         {"ad link : "}
                                     </h3>
-                                    <a target="_blank" href={ad.link}>{ad.link}</a>
+                                    <a target="_blank" rel="noopener" href={ad.link}>{ad.link}</a>
                                 </div>
                                 <button onClick={async () => await deleteAdvertisement(ad.adID)}
                                     style={{ padding: "5px", background: "linear-gradient(#5CB8E4, #277BC0)", color: "#ebebeb", borderRadius: "20px", maxWidth: "max-content" }}>
