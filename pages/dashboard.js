@@ -106,49 +106,49 @@ export default function Dashboard() {
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item2">
-                                        <p>Yesterday's Incom</p>
+                                        <p>{"Yesterday's Income"}</p>
                                         <h3 className="count_up">96.55</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item3">
-                                        <p>Today's Incom</p>
+                                        <p>{"Today's Income"}</p>
                                         <h3 className="count_up">96.66</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item4">
-                                        <p>This week's Income</p>
+                                        <p>{"This week's Income"}</p>
                                         <h3 className="count_up">74.78</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item 5">
-                                        <p>This Month's Income</p>
+                                        <p>{"This Month's Income"}</p>
                                         <h3 className="count_up">254.78</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item6">
-                                        <p>Last Month's Income</p>
+                                        <p>{"Last Month's Income"}</p>
                                         <h3 className="count_up">1554.78</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item7">
-                                        <p>Totall Revenue</p>
+                                        <p>{"Total Revenue"}</p>
                                         <h3 className="count_up">1554.78</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item8">
-                                        <p>Taskd Review</p>
+                                        <p>{"Taskd Review"}</p>
                                         <h3 className="count_up">0</h3>
                                     </div>
                                 </div>
                                 <div className="col-4 text-center">
                                     <div className="count_item count_item9">
-                                        <p>Remaining Tasked</p>
+                                        <p>{"Remaining Tasked"}</p>
                                         <h3 className="count_up">5</h3>
                                     </div>
                                 </div>
