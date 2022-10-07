@@ -93,12 +93,81 @@ export default function Dashboard() {
                 </section>
                 {/* <!-- SLIDER PART END --> */}
 
+                <section id="count">
+                    <div className="container">
+                        <div className="count_main">
+                            <h3>Revenue</h3>
+                            <div className="row g-0">
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item1">
+                                        <p>Available Blance</p>
+                                        <h3 className="count_up">754.78</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item2">
+                                        <p>Yesterday's Incom</p>
+                                        <h3 className="count_up">96.55</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item3">
+                                        <p>Today's Incom</p>
+                                        <h3 className="count_up">96.66</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item4">
+                                        <p>This week's Income</p>
+                                        <h3 className="count_up">74.78</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item 5">
+                                        <p>This Month's Income</p>
+                                        <h3 className="count_up">254.78</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item6">
+                                        <p>Last Month's Income</p>
+                                        <h3 className="count_up">1554.78</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item7">
+                                        <p>Totall Revenue</p>
+                                        <h3 className="count_up">1554.78</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item8">
+                                        <p>Taskd Review</p>
+                                        <h3 className="count_up">0</h3>
+                                    </div>
+                                </div>
+                                <div className="col-4 text-center">
+                                    <div className="count_item count_item9">
+                                        <p>Remaining Tasked</p>
+                                        <h3 className="count_up">5</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div className="line"></div>
+
+
+
+
                 < div className="line" ></div >
 
                 < div className="line" ></div >
 
                 {/* <!--TASK HALL PART START-- > */}
-                {/* < section id="task" >
+                < section id="task" >
                     <div className="container">
                         <div className="task_main">
                             <div className="row">
@@ -157,7 +226,7 @@ export default function Dashboard() {
                             </div>
                         </div>
                     </div>
-                </section > */}
+                </section >
                 {/* <!--TASK HALL PART END-- > */}
 
 
