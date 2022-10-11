@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preload" href="css/carousel.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main">
+
+        <img id="main-image" src="images/carousel/cappadocia.jpg" />
+        <div class="container">
+            <div class="line-control">
+                <div class="line">
+                    <button onclick="setPage(1)" class="line-button active" id="line-button1">1</button>
+                </div>
+                <div class="line">
+                    <button onclick="setPage(2)" class="line-button" id="line-button2">.</button>
+                </div>
+                <div class="line">
+                    <button onclick="setPage(3)" class="line-button" id="line-button3">.</button>
+                </div>
+                <div class="line">
+                    <button onclick="setPage(4)" class="line-button" id="line-button4">.</button>
+                </div>
+                <div class="line">
+                    <button onclick="setPage(5)" class="line-button" id="line-button5">.</button>
+                </div>
+            </div>
+
+            <div class="content">
+                <h1 id="title">
+                    cappadocia
+                </h1>
+                <p id="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit debitis accusantium
+                    quas esse
+                    blanditiis minima harum facilis iure id sequi.</p>
+
+                <button class="explore-button" onclick="goExplore()">Explore</button>
+            </div>
+            <div>
+                <div class="images-container" id="images-container">
+                </div>
+                <div>
+                    <button class="move-button" onclick="changeWithLeftRightButton(-1)">
+                        <i id="bars" class="fa-light fa-mobile-button" aria-hidden="true"></i>
+                    </button>
+                    <button class="move-button" onclick="changeWithLeftRightButton(1)">
+                        <i id="bars" class="fa-light fa-mobile-button" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="main-mobile">
+        <img id="mobile-main-image" src="images/carousel/cappadocia.jpg" />
+        <div class="content">
+            <h1 id="mobile-title">
+                cappadocia
+            </h1>
+            <p id="mobile-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit debitis accusantium
+                quas esse
+                blanditiis minima harum facilis iure id sequi.</p>
+
+            <button class="explore-button" onclick="goExploreMobile()">Explore</button>
+        </div>
+        <div class="images-container">
+            <button class="move-button" onclick="changeWithLeftRightButtonMobile(-1)">
+                <i id="bars" class="fa-light fa-mobile-button" aria-hidden="true"></i>
+            </button>
+            <div id="mobile-images-container" class="mobile-images-container">
+                <!-- <div class="image-container">
+                    <img src="images/carousel/cappadocia-c.jpg" id="mobile-main-carousel-item" />
+                </div>
+                <div class="image-container">
+                    <img src="images/carousel/kerala-c.jpg" onclick="changePageFromThumbnailMobile('mobile-secondary-carousel-item-1')"
+                        id="mobile-secondary-carousel-item-1" />
+                </div>
+                <div class="image-container">
+                    <img src="images/carousel/komodo-c.jpg" onclick="changePageFromThumbnailMobile('mobile-secondary-carousel-item-2')"
+                        id="mobile-secondary-carousel-item-2" />
+                </div>
+                <div class="image-container">
+                    <img src="images/carousel/malgovik-c.jpg" onclick="changePageFromThumbnailMobile('mobile-secondary-carousel-item-3')"
+                        id="mobile-secondary-carousel-item-3" />
+                </div> -->
+            </div>
+
+            <button class="move-button" onclick="changeWithLeftRightButtonMobile(1)">
+                <i id="bars" class="fa-light fa-mobile-button" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="line-control">
+            <div class="line">
+                <button onclick="setPageMobile(1)" class="line-button active" id="mobile-line-button1">1</button>
+            </div>
+            <div class="line">
+                <button onclick="setPageMobile(2)" class="line-button" id="mobile-line-button2">.</button>
+            </div>
+            <div class="line">
+                <button onclick="setPageMobile(3)" class="line-button" id="mobile-line-button3">.</button>
+            </div>
+            <div class="line">
+                <button onclick="setPageMobile(4)" class="line-button" id="mobile-line-button4">.</button>
+            </div>
+            <div class="line">
+                <button onclick="setPageMobile(5)" class="line-button" id="mobile-line-button5">.</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="js/carouselAnimation.js"></script>
+
+</html>
